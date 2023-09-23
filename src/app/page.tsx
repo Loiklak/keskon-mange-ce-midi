@@ -1,4 +1,5 @@
 "use client";
+import RestaurantCard from "@/components/RestaurantCard";
 import { getRandomRestaurant } from "@/core/restaurants/getRestaurants";
 import { Restaurant } from "@prisma/client";
 import { useState } from "react";
@@ -27,7 +28,7 @@ export default function Home() {
         </button>
 
         {currentPickedRestaurant !== undefined ? (
-          <p className="text-xl">{currentPickedRestaurant.name}</p>
+          <RestaurantCard restaurant={currentPickedRestaurant} />
         ) : (
           <p className="text-xl">Je sais pas :(</p>
         )}
