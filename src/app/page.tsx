@@ -1,8 +1,6 @@
 "use client";
-import {
-  Restaurant,
-  getRandomRestaurant,
-} from "@/core/restaurants/getRestaurants";
+import { getRandomRestaurant } from "@/core/restaurants/getRestaurants";
+import { Restaurant } from "@prisma/client";
 import { useState } from "react";
 
 export default function Home() {

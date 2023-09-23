@@ -1,12 +1,7 @@
 "use server";
 
+import { Restaurant } from "@prisma/client";
 import prisma from "../../../prisma/singleton";
-
-export type Restaurant = {
-  name: string;
-  tags?: string[];
-  canEatIn: boolean;
-};
 
 export const getRandomRestaurant = async (): Promise<Restaurant> => {
   const restaurantCount = await prisma.restaurant.count();
