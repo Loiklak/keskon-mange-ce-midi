@@ -1,5 +1,5 @@
 "use client";
-import RestaurantCard from "@/components/RestaurantCard";
+import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
 import { getRandomRestaurant } from "@/core/restaurants/getRestaurants";
 import { Restaurant } from "@prisma/client";
 import { useState } from "react";
@@ -10,6 +10,7 @@ export default function Home() {
   >();
 
   const pickRandomRestaurant = () => {
+    setCurrentPickedRestaurant(undefined);
     getRandomRestaurant().then((restaurant) =>
       setCurrentPickedRestaurant(restaurant)
     );
@@ -19,7 +20,7 @@ export default function Home() {
     <div className="p-2">
       <h1 className="text-5xl text-center">On mange quoi ce midi putain ?</h1>
 
-      <div className="grid place-items-center mt-12 gap-6">
+      <div className="grid place-items-center mt-12 gap-8">
         <button
           onClick={pickRandomRestaurant}
           className="px-12 py-6 rounded-lg border border-solid"
@@ -27,11 +28,7 @@ export default function Home() {
           On mange à...
         </button>
 
-        {currentPickedRestaurant !== undefined ? (
-          <RestaurantCard restaurant={currentPickedRestaurant} />
-        ) : (
-          <p className="text-xl">Je sais pas :(</p>
-        )}
+        <RestaurantCard restaurant={currentPickedRestaurant} />
       </div>
     </div>
   );
