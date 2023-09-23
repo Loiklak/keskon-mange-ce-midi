@@ -1,5 +1,6 @@
+"use client";
 import { Restaurant } from "@prisma/client";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import Tag from "./Tag";
 import { getRandomEmoji } from "@/helpers/getRandomEmojis";
 
@@ -8,15 +9,28 @@ interface Props {
 }
 
 const RestaurantCard: FC<Props> = ({ restaurant }) => {
-  return (
-    <div className="p-5 shadow-xl rounded-xl flex flex-col gap-3 items-center h-52 w-52">
-      <p className="text-6xl">{getRandomEmoji()}</p>
-      <h2 className="text-2xl">{restaurant.name}</h2>
+  const [isAnimating, setIsAnimating] = useState(true);
 
-      <div className="flex gap-1 flex-wrap justify-center">
-        {restaurant.canEatIn && <Tag>Sur place</Tag>}
-        {restaurant.canTakeAway && <Tag>À emporter</Tag>}
-      </div>
+  useEffect(() => {
+    setIsAnimating(true);
+  }, [restaurant]);
+
+  return (
+    <div
+      onAnimationEnd={() => setIsAnimating(false)}
+      className={`p-5 shadow-xl rounded-xl flex flex-col gap-3 items-center h-52 w-52 ${
+        isAnimating && "animate-pulse-loader"
+      }`}
+    >
+      <p className="text-6xl">{isAnimating ? "✨" : getRandomEmoji()}</p>
+      <h2 className="text-2xl">{isAnimating ? "????" : restaurant.name}</h2>
+
+      {!isAnimating && (
+        <div className="flex gap-1 flex-wrap justify-center">
+          {restaurant.canEatIn && <Tag>Sur place</Tag>}
+          {restaurant.canTakeAway && <Tag>À emporter</Tag>}
+        </div>
+      )}
     </div>
   );
 };
