@@ -2,7 +2,7 @@
 import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
 import { getRandomRestaurant } from "@/core/restaurants/getRestaurants";
 import { Restaurant } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [currentPickedRestaurant, setCurrentPickedRestaurant] = useState<
@@ -15,6 +15,12 @@ export default function Home() {
       setCurrentPickedRestaurant(restaurant)
     );
   };
+
+  useEffect(() => {
+    getRandomRestaurant().then((restaurant) =>
+      setCurrentPickedRestaurant(restaurant)
+    );
+  }, []);
 
   return (
     <div className="p-10 flex flex-col items-center gap-12">
