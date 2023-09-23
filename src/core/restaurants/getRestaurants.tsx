@@ -1,3 +1,5 @@
+"use server";
+
 export type Restaurant = {
   name: string;
   tags?: string[];
@@ -5,10 +7,10 @@ export type Restaurant = {
   canEatIn: boolean;
 };
 
-export const getRandomRestaurant = (): Restaurant =>
+export const getRandomRestaurant = async (): Promise<Restaurant> =>
   getRestaurants()[Math.floor(Math.random() * getRestaurants().length)];
 
-export const getRestaurants = (): Restaurant[] => RESTAURANTS;
+const getRestaurants = (): Restaurant[] => RESTAURANTS;
 
 const RESTAURANTS = [
   {

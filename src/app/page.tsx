@@ -11,7 +11,9 @@ export default function Home() {
   >();
 
   const pickRandomRestaurant = () => {
-    setCurrentPickedRestaurant(getRandomRestaurant());
+    getRandomRestaurant().then((restaurant) =>
+      setCurrentPickedRestaurant(restaurant)
+    );
   };
 
   return (
