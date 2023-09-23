@@ -17,19 +17,12 @@ export default function Home() {
   };
 
   return (
-    <div className="p-2">
+    <div className="p-10 flex flex-col items-center gap-12">
       <h1 className="text-5xl text-center">On mange quoi ce midi putain ?</h1>
 
-      <div className="grid place-items-center mt-12 gap-8">
-        <button
-          onClick={pickRandomRestaurant}
-          className="px-12 py-6 rounded-lg border border-solid"
-        >
-          On mange à...
-        </button>
-
+      <button onClick={pickRandomRestaurant}>
         <RestaurantCard restaurant={currentPickedRestaurant} />
-      </div>
+      </button>
     </div>
   );
 }
