@@ -3,6 +3,7 @@ import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
 import { getRandomRestaurant } from "@/core/restaurants/getRestaurants";
 import { Restaurant } from "@prisma/client";
 import { useEffect, useState } from "react";
+import styles from "./page.module.css";
 
 export default function Home() {
   const [currentPickedRestaurant, setCurrentPickedRestaurant] = useState<
@@ -24,7 +25,11 @@ export default function Home() {
 
   return (
     <div className="p-10 flex flex-col items-center gap-12">
-      <h1 className="text-5xl text-center">On mange quoi ce midi putain ?</h1>
+      <h1
+        className={`text-6xl text-center font-black ${styles["background-image-text"]}`}
+      >
+        On mange quoi ce midi ?
+      </h1>
 
       <button onClick={pickRandomRestaurant}>
         <RestaurantCard restaurant={currentPickedRestaurant} />
