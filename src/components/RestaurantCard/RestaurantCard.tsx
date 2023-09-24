@@ -28,7 +28,7 @@ const RestaurantCard: FC<Props> = ({ restaurant }) => {
 
   return (
     <div
-      className="p-5 shadow-xl rounded-xl flex flex-col gap-3 items-center h-52 w-52 lg:h-96 lg:w-96 lg:gap-10 lg:p-10"
+      className="bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 items-center h-52 w-52 lg:h-96 lg:w-96 lg:gap-10 lg:p-10"
       ref={animationContainerRef}
     >
       <p className="text-6xl lg:text-9xl">{restaurant ? currentEmoji : "✨"}</p>

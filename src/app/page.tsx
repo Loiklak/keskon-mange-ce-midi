@@ -24,9 +24,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="p-10 flex flex-col items-center gap-12 lg:gap-24">
+    <div className="p-10 flex flex-col items-center gap-12 lg:gap-24 bg-slate-100 h-full">
       <h1
-        className={`text-6xl lg:text-8xl text-center font-black ${styles["background-image-text"]}`}
+        className={`text-6xl lg:text-8xl text-center font-black drop-shadow-lg ${styles["background-image-text"]}`}
       >
         On mange quoi ce midi ?
       </h1>
