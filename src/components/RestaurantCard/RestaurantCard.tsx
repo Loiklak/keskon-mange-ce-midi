@@ -32,7 +32,9 @@ const RestaurantCard: FC<Props> = ({ restaurant }) => {
       ref={animationContainerRef}
     >
       <p className="text-6xl">{restaurant ? currentEmoji : "✨"}</p>
-      <h2 className="text-2xl">{restaurant ? restaurant.name : "????"}</h2>
+      <h2 className="text-2xl">
+        {restaurant ? restaurant.name : "Je réfléchis..."}
+      </h2>
 
       <div className="flex gap-1 flex-wrap justify-center">
         {restaurant?.canEatIn && <Tag>Sur place</Tag>}
