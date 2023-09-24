@@ -24,7 +24,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center bg-slate-100 h-full gap-12 p-10  lg:gap-24 lg:p-16">
+    <div className="flex flex-col items-center bg-slate-100 h-full gap-14 p-10  lg:gap-24 lg:p-16">
       <h1
         className={`text-6xl lg:text-8xl text-center font-black drop-shadow-lg ${styles["background-image-text"]}`}
       >
