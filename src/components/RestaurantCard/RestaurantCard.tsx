@@ -1,9 +1,9 @@
 "use client";
 import { Restaurant } from "@prisma/client";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { getRandomEmoji } from "@/helpers/getRandomEmojis";
-import Tag from "../Tag";
 import { useShakeAnimation } from "./useShakeAnimation";
+import { Badge } from "../ui/badge";
 
 interface Props {
   restaurant?: Restaurant;
@@ -37,8 +37,10 @@ const RestaurantCard: FC<Props> = ({ restaurant }) => {
       </h2>
 
       <div className="flex gap-1 flex-wrap justify-center">
-        {restaurant?.canEatIn && <Tag>Sur place</Tag>}
-        {restaurant?.canTakeAway && <Tag>À emporter</Tag>}
+        {restaurant?.canEatIn && <Badge variant={"outline"}>Sur place</Badge>}
+        {restaurant?.canTakeAway && (
+          <Badge variant={"outline"}>À emporter</Badge>
+        )}
       </div>
     </div>
   );
