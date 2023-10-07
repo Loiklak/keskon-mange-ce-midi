@@ -18,9 +18,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    getRandomRestaurant().then((restaurant) =>
-      setCurrentPickedRestaurant(restaurant)
-    );
+    pickRandomRestaurant();
   }, []);
 
   return (
