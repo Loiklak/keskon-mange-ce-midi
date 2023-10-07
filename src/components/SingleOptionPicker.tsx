@@ -27,7 +27,7 @@ export function SingleOptionPicker<TOptionValue extends string>({
       onValueChange={onChange}
     >
       {items.map((item) => (
-        <div>
+        <div key={item.value}>
           <RadioGroupItem
             value={item.value}
             id={item.value}
