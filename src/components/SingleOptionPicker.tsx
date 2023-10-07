@@ -35,7 +35,7 @@ export function SingleOptionPicker<TOptionValue extends string>({
           />
           <Label
             htmlFor={item.value}
-            className="h-full text-center flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+            className="h-full text-center flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary duration-75"
           >
             {item.label}
           </Label>
