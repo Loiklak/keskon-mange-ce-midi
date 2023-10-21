@@ -1,5 +1,5 @@
 .background-image-text {
-  background-image: url('/food-bg.jpg');
+  background-image: url("/food-bg.jpg");
   background-clip: text;
   background-repeat: repeat;
   -webkit-text-fill-color: transparent;
