@@ -11,6 +11,7 @@ type Props<TOptionValue extends string> = {
   value: string;
   onChange: (value: TOptionValue) => void;
   defaultValue?: string;
+  label: string;
 };
 
 export function SingleOptionPicker<TOptionValue extends string>({
@@ -18,29 +19,33 @@ export function SingleOptionPicker<TOptionValue extends string>({
   onChange,
   value,
   defaultValue,
+  label,
 }: Props<TOptionValue>) {
   return (
-    <RadioGroup
-      defaultValue={defaultValue ?? items[0].value}
-      className="grid grid-cols-3 gap-4"
-      value={value}
-      onValueChange={onChange}
-    >
-      {items.map((item) => (
-        <div key={item.value}>
-          <RadioGroupItem
-            value={item.value}
-            id={item.value}
-            className="peer sr-only"
-          />
-          <Label
-            htmlFor={item.value}
-            className="h-full text-center flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary duration-75"
-          >
-            {item.label}
-          </Label>
-        </div>
-      ))}
-    </RadioGroup>
+    <form className="flex flex-col gap-2 items-center text-xl">
+      <label className="text-base lg:text-xl">{label} :</label>
+      <RadioGroup
+        defaultValue={defaultValue ?? items[0].value}
+        className="grid grid-cols-3 gap-4"
+        value={value}
+        onValueChange={onChange}
+      >
+        {items.map((item) => (
+          <div key={item.value}>
+            <RadioGroupItem
+              value={item.value}
+              id={item.value}
+              className="peer sr-only"
+            />
+            <Label
+              htmlFor={item.value}
+              className="h-full text-center flex flex-col items-center justify-center rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary duration-75"
+            >
+              {item.label}
+            </Label>
+          </div>
+        ))}
+      </RadioGroup>
+    </form>
   );
 }
