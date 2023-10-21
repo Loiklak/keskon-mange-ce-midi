@@ -55,9 +55,10 @@ export default function Home() {
         onChange={(v) => setRestaurantType(v)}
       />
 
-      <button onClick={pickRandomRestaurant}>
-        <RestaurantCard restaurant={currentPickedRestaurant} />
-      </button>
+      <RestaurantCard
+        restaurant={currentPickedRestaurant}
+        getNewRestaurant={pickRandomRestaurant}
+      />
     </div>
   );
 }

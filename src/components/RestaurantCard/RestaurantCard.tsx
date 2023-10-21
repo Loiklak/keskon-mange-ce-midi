@@ -4,15 +4,17 @@ import { FC, useEffect, useState } from "react";
 import { getRandomEmoji } from "@/helpers/getRandomEmojis";
 import { useShakeAnimation } from "./useShakeAnimation";
 import { Badge } from "../ui/badge";
+import { ArrowRight } from "lucide-react";
 
 interface Props {
   restaurant?: Restaurant;
+  getNewRestaurant: () => void;
 }
 
-const RestaurantCard: FC<Props> = ({ restaurant }) => {
+const RestaurantCard: FC<Props> = ({ restaurant, getNewRestaurant }) => {
   const [currentEmoji, setCurrentEmoji] = useState<string>("✨");
   const { animationContainerRef, startAnimate, stopAnimate } =
-    useShakeAnimation();
+    useShakeAnimation<HTMLButtonElement>();
 
   useEffect(() => {
     setCurrentEmoji(getRandomEmoji());
@@ -27,19 +29,37 @@ const RestaurantCard: FC<Props> = ({ restaurant }) => {
   }, [restaurant]);
 
   return (
-    <div
-      className="bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 items-center h-52 w-52 lg:h-96 lg:w-96 lg:gap-10 lg:p-10"
-      ref={animationContainerRef}
-    >
-      <p className="text-6xl lg:text-9xl">{restaurant ? currentEmoji : "✨"}</p>
-      <h2 className="text-2xl lg:text-5xl">
-        {restaurant ? restaurant.name : "Je réfléchis..."}
-      </h2>
+    <div className="flex gap-8">
+      <button
+        className="bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 items-center h-52 w-52 lg:h-96 lg:w-96 lg:gap-10 lg:p-10"
+        ref={animationContainerRef}
+        onClick={getNewRestaurant}
+      >
+        <p className="text-6xl lg:text-9xl">
+          {restaurant ? currentEmoji : "✨"}
+        </p>
+        <h2 className="text-2xl lg:text-5xl">
+          {restaurant ? restaurant.name : "Je réfléchis..."}
+        </h2>
 
-      <div className="flex gap-1 flex-wrap justify-center">
-        {restaurant?.canEatIn && <Badge variant={"outline"}>Sur place</Badge>}
-        {restaurant?.canTakeAway && (
-          <Badge variant={"outline"}>À emporter</Badge>
+        <div className="flex gap-1 flex-wrap justify-center">
+          {restaurant?.canEatIn && <Badge variant={"outline"}>Sur place</Badge>}
+          {restaurant?.canTakeAway && (
+            <Badge variant={"outline"}>À emporter</Badge>
+          )}
+        </div>
+      </button>
+
+      <div className="flex flex-col justify-center">
+        {restaurant?.mapUrl && (
+          <a
+            className="flex gap-2 lg:text-xl"
+            href={restaurant?.mapUrl}
+            target="_blank"
+          >
+            <span className="whitespace-nowrap">Go</span>
+            <ArrowRight />
+          </a>
         )}
       </div>
     </div>

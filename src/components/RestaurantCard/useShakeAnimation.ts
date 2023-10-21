@@ -13,8 +13,8 @@ const SHAKE_ANIMATION_DURATION = 300;
  * Then the card will shake on repeat until the animation is stopped.
  * When the animation is stopped the card will be focused out.
  */
-export const useShakeAnimation = () => {
-  const animationContainerRef = useRef<HTMLDivElement>(null);
+export const useShakeAnimation = <TElementRef extends HTMLElement>() => {
+  const animationContainerRef = useRef<TElementRef>(null);
   const shakeAnimationRef = useRef<Animation | undefined>(undefined);
   const shouldAnimateRef = useRef<boolean>(false);
 
