@@ -1,6 +1,6 @@
 "use client";
 import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
-import { getRandomRestaurant } from "@/core/restaurants/getRestaurants";
+import { getRandomRestaurant } from "@/core/restaurants/getRandomRestaurants";
 import { Restaurant } from "@prisma/client";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
