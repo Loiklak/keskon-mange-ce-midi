@@ -7,6 +7,7 @@ import styles from "./page.module.css";
 import { RestaurantType } from "@/core/restaurants/restaurantType";
 import { Option, SingleOptionPicker } from "@/components/SingleOptionPicker";
 import { Diet } from "@/core/restaurants/diet";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const restaurantTypeOptions: Option<RestaurantType>[] = [
   {
@@ -38,6 +39,8 @@ const dietOptions: Option<Diet>[] = [
   },
 ];
 
+const DIET_LOCAL_STORAGE_KEY = "diet";
+
 export default function Home() {
   const [currentPickedRestaurant, setCurrentPickedRestaurant] = useState<
     Restaurant | undefined
@@ -45,7 +48,10 @@ export default function Home() {
   const [restaurantType, setRestaurantType] = useState<RestaurantType>(
     RestaurantType.WHATEVER
   );
-  const [diet, setDiet] = useState<Diet>(Diet.MIXED);
+  const [diet, setDiet] = useLocalStorage<Diet>(
+    DIET_LOCAL_STORAGE_KEY,
+    Diet.MIXED
+  );
 
   const pickRandomRestaurant = () => {
     setCurrentPickedRestaurant(undefined);
