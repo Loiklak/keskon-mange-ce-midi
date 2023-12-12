@@ -59,7 +59,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center bg-slate-100 h-full gap-6 lg:gap-8 p-10 lg:p-10">
+    <div className="flex flex-col items-center bg-slate-100 h-full gap-6 lg:gap-8 p-10 lg:p-10 overflow-auto">
       <h1
         className={`text-3xl lg:text-8xl text-center font-black drop-shadow-lg ${styles["background-image-text"]}`}
       >
