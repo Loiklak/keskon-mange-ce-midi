@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/react";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
             </ul>
           </nav>
         </div>
+        <Analytics />
       </body>
     </html>
   );
