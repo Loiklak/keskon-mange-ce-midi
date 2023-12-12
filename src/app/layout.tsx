@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const raleway = Raleway({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
           </nav>
         </div>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
