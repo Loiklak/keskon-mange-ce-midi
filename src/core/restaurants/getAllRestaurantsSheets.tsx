@@ -2,25 +2,20 @@
 
 import { get } from "http";
 import { emitKeypressEvents } from "readline";
+import { RestaurantInfos } from "./interface";
 
 const documentID = "1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0"
-const valuesRange = "Feuille1!A1:E3"
+const valuesRange = "Feuille1!A1:G5"
 const googleSheetsAPIKey = "AIzaSyCfYXtdNhpPqpSmdNROsXe99yK75o9vcCM"
-
-interface RestaurantInfos {
-  name: string;
-  canEatIn: boolean;
-  canTakeAway: boolean;
-  vegetarianFriendly: boolean;
-  meatLover: boolean;
-}
 
 enum sheetsColumnsToTechnicalName {
   "Restaurant" = "name",
   "Sur place" = "canEatIn",
   "A emporter" = "canTakeAway",
   "Vege" = "vegetarianFriendly",
-  "Viandard" = "meatLover"
+  "Viandard" = "meatLover",
+  "URL maps" = "mapURL",
+  "Moins de 10€" = "lessThanTenEuros"
 }
 type CorrectColumn = keyof typeof sheetsColumnsToTechnicalName
 
@@ -28,6 +23,11 @@ type CorrectColumn = keyof typeof sheetsColumnsToTechnicalName
 function isCorrectHeader(header: string[]): header is CorrectColumn[] {
   const expectedHeader = Object.keys(sheetsColumnsToTechnicalName)
   return header.every(col => expectedHeader.includes(col))
+}
+
+const checkBoolean = (value: string): boolean => {
+  if (value === 'TRUE' || value === 'FALSE'){return true}
+  else {return false}
 }
 
 const processBoolean = (value: string): boolean => {
@@ -51,14 +51,24 @@ const arrayToRestaurantInfos = (data: string[][]): RestaurantInfos[] => {
         canTakeAway: false,
         vegetarianFriendly: false,
         meatLover: false,
+        mapUrl: "https://www.google.com/maps",
+        lessThanTenEuros: true,
       };
       header.forEach((col, index) => {
         // case disjunction: value = string or value = boolean
-        // -> for strings
-        if (col==="Restaurant"){restaurant[sheetsColumnsToTechnicalName[col]] = row[index]}
-        // -> for booleans
-        else{restaurant[sheetsColumnsToTechnicalName[col]] = processBoolean(row[index])}
+        if (checkBoolean(row[index])){
+          restaurant[sheetsColumnsToTechnicalName[col]] = processBoolean(row[index])
+        }
+        else{restaurant[sheetsColumnsToTechnicalName[col]] = row[index]}
       });
+
+      // header.forEach((col, index) => {
+      //   if (col === 'Restaurant'){
+      //       restaurant[sheetsColumnsToTechnicalName[col]] = processBoolean(row[index])
+      //     }
+      //     else{restaurant[sheetsColumnsToTechnicalName[col]] = processBoolean(row[index])}
+      //   });
+
       return restaurant;
         
     });

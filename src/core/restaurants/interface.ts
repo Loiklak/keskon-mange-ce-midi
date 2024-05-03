@@ -4,4 +4,6 @@ export interface RestaurantInfos {
     canTakeAway: boolean;
     vegetarianFriendly: boolean;
     meatLover: boolean;
+    mapUrl: string|null;
+    lessThanTenEuros: boolean;
   }
