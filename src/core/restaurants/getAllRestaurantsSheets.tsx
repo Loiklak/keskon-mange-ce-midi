@@ -4,9 +4,13 @@ import { get } from "http";
 import { emitKeypressEvents } from "readline";
 import { RestaurantInfos } from "./interface";
 
-const documentID = "1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0"
-const valuesRange = "Feuille1!A1:G5"
-const googleSheetsAPIKey = "AIzaSyCfYXtdNhpPqpSmdNROsXe99yK75o9vcCM"
+// const documentID = "1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0"
+// const valuesRange = "Feuille1!A1:G10"
+// const googleSheetsAPIKey = "AIzaSyCfYXtdNhpPqpSmdNROsXe99yK75o9vcCM"
+
+const documentID = process.env.RESTAURANTS_SHEET_ID
+const valuesRange = process.env.SHEET_VALUE_RANGE
+const googleSheetsAPIKey = process.env.GOOGLE_SHEETS_API_KEY
 
 enum sheetsColumnsToTechnicalName {
   "Restaurant" = "name",
@@ -14,7 +18,7 @@ enum sheetsColumnsToTechnicalName {
   "A emporter" = "canTakeAway",
   "Vege" = "vegetarianFriendly",
   "Viandard" = "meatLover",
-  "URL maps" = "mapURL",
+  "URL maps" = "mapUrl",
   "Moins de 10€" = "lessThanTenEuros"
 }
 type CorrectColumn = keyof typeof sheetsColumnsToTechnicalName
@@ -77,7 +81,7 @@ const arrayToRestaurantInfos = (data: string[][]): RestaurantInfos[] => {
 }
 
 
-const generateAPIURL = (documentID: string, valuesRange: string, googleSheetsAPIKey: string) => {
+const generateAPIURL = (documentID: string|undefined, valuesRange: string|undefined, googleSheetsAPIKey: string|undefined) => {
   return `https://sheets.googleapis.com/v4/spreadsheets/${documentID}/values/${valuesRange}?key=${googleSheetsAPIKey}`
 }
 

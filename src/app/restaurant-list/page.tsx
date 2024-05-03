@@ -17,6 +17,8 @@ export default async function RestaurantList() {
           <th>A emporter</th>
           <th>Vege</th>
           <th>Viandard</th>
+          <th>Moins de 10€</th>
+          <th>Carte</th>
         </tr>
       </thead>
       <tbody>
@@ -27,6 +29,8 @@ export default async function RestaurantList() {
             <td>{booleanToLabel(restaurant.canTakeAway)}</td>
             <td>{booleanToLabel(restaurant.vegetarianFriendly)}</td>
             <td>{booleanToLabel(restaurant.meatLover)}</td>
+            <td>{booleanToLabel(restaurant.lessThanTenEuros)}</td>
+            <td>{restaurant.mapUrl}</td>
           </tr>
         ))}
       </tbody>
