@@ -12,9 +12,6 @@ export const getRandomRestaurantSheets = async (
   diet: Diet
 ): Promise<RestaurantInfos> => {
   const restaurants = await getAllRestaurantsSheets();
-  console.log("all restos : ", restaurants)
-  console.log("restaurantType : ", restaurantType)
-  console.log("diet : ", diet)
 
   const whereClause = {
     canEatIn: restaurantType === RestaurantType.EAT_IN ? true : undefined,
