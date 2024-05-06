@@ -7,3 +7,16 @@ export interface RestaurantInfos {
     mapUrl: string|null;
     lessThanTenEuros: boolean;
   }
+
+export type RestaurantBooleanKeys = keyof {
+    [Key in keyof RestaurantInfos as RestaurantInfos[Key] extends boolean? Key : never]: never;
+}
+
+const objectBooleanKeys: Record<RestaurantBooleanKeys, undefined> = {
+  canEatIn : undefined,
+  canTakeAway : undefined,
+  vegetarianFriendly : undefined, 
+  meatLover : undefined,
+  lessThanTenEuros : undefined
+}
+export const restaurantBooleanKeys = Object.keys(objectBooleanKeys)

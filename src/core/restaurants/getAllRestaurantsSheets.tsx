@@ -2,42 +2,40 @@
 
 import { get } from "http";
 import { emitKeypressEvents } from "readline";
-import { RestaurantInfos } from "./interface";
-
-// const documentID = "1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0"
-// const valuesRange = "Feuille1!A1:G10"
-// const googleSheetsAPIKey = "AIzaSyCfYXtdNhpPqpSmdNROsXe99yK75o9vcCM"
+import { RestaurantBooleanKeys, RestaurantInfos, restaurantBooleanKeys } from "./interface";
 
 const documentID = process.env.RESTAURANTS_SHEET_ID
 const valuesRange = process.env.SHEET_VALUE_RANGE
 const googleSheetsAPIKey = process.env.GOOGLE_SHEETS_API_KEY
 
-enum sheetsColumnsToTechnicalName {
-  "Restaurant" = "name",
-  "Sur place" = "canEatIn",
-  "A emporter" = "canTakeAway",
-  "Vege" = "vegetarianFriendly",
-  "Viandard" = "meatLover",
-  "URL maps" = "mapUrl",
-  "Moins de 10€" = "lessThanTenEuros"
-}
-type CorrectColumn = keyof typeof sheetsColumnsToTechnicalName
+const sheetsColumnsToTechnicalName = {
+  Restaurant: 'name',
+  'Sur place': 'canEatIn',
+  'A emporter': 'canTakeAway',
+  Vege: 'vegetarianFriendly',
+  Viandard : 'meatLover',
+  "URL maps": "mapUrl",
+  "Moins de 10€": "lessThanTenEuros"
+} as const
+
+type GoogleSheetsExpectedColumnNames = keyof typeof sheetsColumnsToTechnicalName
 
 // Correct header type guard
-function isCorrectHeader(header: string[]): header is CorrectColumn[] {
+function isCorrectHeader(header: string[]): header is GoogleSheetsExpectedColumnNames[] {
   const expectedHeader = Object.keys(sheetsColumnsToTechnicalName)
   return header.every(col => expectedHeader.includes(col))
 }
 
-const checkBoolean = (value: string): boolean => {
-  if (value === 'TRUE' || value === 'FALSE'){return true}
-  else {return false}
+// Boolean key type guard
+function isBooleanKey(key: string): key is RestaurantBooleanKeys {
+  return restaurantBooleanKeys.includes(key)
 }
+
 
 const processBoolean = (value: string): boolean => {
   if (value === 'TRUE'){return true}
   else if (value === 'FALSE'){return false}
-  else {throw new Error('Value is not a boolean')}
+  else {throw new Error('Value is not in "TRUE" or "FALSE" format')}
 }
 
 const arrayToRestaurantInfos = (data: string[][]): RestaurantInfos[] => {
@@ -60,18 +58,12 @@ const arrayToRestaurantInfos = (data: string[][]): RestaurantInfos[] => {
       };
       header.forEach((col, index) => {
         // case disjunction: value = string or value = boolean
-        if (checkBoolean(row[index])){
-          restaurant[sheetsColumnsToTechnicalName[col]] = processBoolean(row[index])
+        const key = sheetsColumnsToTechnicalName[col]
+        if (isBooleanKey(key)){
+          restaurant[key] = processBoolean(row[index])
         }
-        else{restaurant[sheetsColumnsToTechnicalName[col]] = row[index]}
+        else{restaurant[key] = row[index]}
       });
-
-      // header.forEach((col, index) => {
-      //   if (col === 'Restaurant'){
-      //       restaurant[sheetsColumnsToTechnicalName[col]] = processBoolean(row[index])
-      //     }
-      //     else{restaurant[sheetsColumnsToTechnicalName[col]] = processBoolean(row[index])}
-      //   });
 
       return restaurant;
         
