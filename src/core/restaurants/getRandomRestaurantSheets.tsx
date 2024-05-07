@@ -10,13 +10,14 @@ export const getRandomRestaurantSheets = async (
 ): Promise<RestaurantInfos> => {
   const restaurants = await getAllRestaurantsSheets();
 
-  const whereClause = {
+  type FilterClause = Partial<RestaurantInfos>;
+  const restaurantFilterClause: FilterClause = {
     canEatIn: restaurantType === RestaurantType.EAT_IN ? true : undefined,
     canTakeAway: restaurantType === RestaurantType.TAKE_AWAY ? true : undefined,
     vegetarianFriendly: diet === Diet.VEGETARIAN ? true : undefined,
     meatLover: diet === Diet.MEATLOVER ? true : undefined,
   };
-  console.log("whereClause : ", whereClause);
+  console.log("whereClause : ", restaurantFilterClause);
 
   type CorrectKey = keyof RestaurantInfos;
 
@@ -30,13 +31,12 @@ export const getRandomRestaurantSheets = async (
 
   const restaurantSatisfiesClause = (
     restaurant: RestaurantInfos,
-    whereClause: any
+    whereClause: FilterClause
   ): Boolean => {
     for (const key in whereClause) {
-      if (
-        !isRestaurantInfoKey(key, restaurant) ||
-        (whereClause[key] !== undefined && restaurant[key] !== whereClause[key])
-      ) {
+      if (!isRestaurantInfoKey(key, restaurant)) {
+        throw new Error(`Invalid key ${key} in filter clause.`);
+      } else if (whereClause[key] && restaurant[key] !== whereClause[key]) {
         return false;
       }
     }
@@ -44,7 +44,7 @@ export const getRandomRestaurantSheets = async (
   };
 
   const filteredRestaurants = restaurants.filter((restaurant) =>
-    restaurantSatisfiesClause(restaurant, whereClause)
+    restaurantSatisfiesClause(restaurant, restaurantFilterClause)
   );
 
   console.log("filtered restos : ", filteredRestaurants);
