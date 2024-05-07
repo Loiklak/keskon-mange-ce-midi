@@ -8,11 +8,11 @@ import {
   restaurantBooleanKeys,
 } from "./interface";
 
-const documentID = process.env.RESTAURANTS_SHEET_ID;
-const valuesRange = process.env.SHEET_VALUE_RANGE;
-const googleSheetsAPIKey = process.env.GOOGLE_SHEETS_API_KEY;
+const RESTAURANTS_SHEET_ID = process.env.RESTAURANTS_SHEET_ID;
+const SHEET_VALUE_RANGE = process.env.SHEET_VALUE_RANGE;
+const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
-const sheetsColumnsToTechnicalName = {
+const SHEETS_COLUMNS_TO_TECHNICAL_NAME = {
   Restaurant: "name",
   "Sur place": "canEatIn",
   "A emporter": "canTakeAway",
@@ -23,18 +23,18 @@ const sheetsColumnsToTechnicalName = {
 } as const;
 
 type GoogleSheetsExpectedColumnNames =
-  keyof typeof sheetsColumnsToTechnicalName;
+  keyof typeof SHEETS_COLUMNS_TO_TECHNICAL_NAME;
 
-// Correct header type guard
 function isCorrectHeader(
   header: string[]
 ): header is GoogleSheetsExpectedColumnNames[] {
-  const expectedHeader = Object.keys(sheetsColumnsToTechnicalName);
+  const expectedHeader = Object.keys(SHEETS_COLUMNS_TO_TECHNICAL_NAME);
   return header.every((col) => expectedHeader.includes(col));
 }
 
-// Boolean key type guard
-function isBooleanKey(key: string): key is RestaurantBooleanKeys {
+function processBooleanFromSheetsCell(
+  key: string
+): key is RestaurantBooleanKeys {
   return restaurantBooleanKeys.includes(key);
 }
 
@@ -44,17 +44,16 @@ const processBoolean = (value: string): boolean => {
   } else if (value === "FALSE") {
     return false;
   } else {
-    throw new Error('Value is not in "TRUE" or "FALSE" format');
+    throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
   }
 };
 
-const arrayToRestaurantInfos = (data: string[][]): RestaurantInfos[] => {
-  // Extraire les en-têtes (première ligne) et vérifie le type
-  // type CorrectHeader = 'Restaurant' | 'Sur place' | 'A emporter' | 'Vege' | 'Viandard';
+const googleSheetsDtoToRestaurantInfos = (
+  data: string[][]
+): RestaurantInfos[] => {
   const header: string[] = data[0];
   const content = data.slice(1);
   if (isCorrectHeader(header)) {
-    // Convertir les données en JSON
     const jsonData = content.map((row) => {
       const restaurant: RestaurantInfos = {
         name: "Name unknown",
@@ -66,9 +65,8 @@ const arrayToRestaurantInfos = (data: string[][]): RestaurantInfos[] => {
         lessThanTenEuros: true,
       };
       header.forEach((col, index) => {
-        // case disjunction: value = string or value = boolean
-        const key = sheetsColumnsToTechnicalName[col];
-        if (isBooleanKey(key)) {
+        const key = SHEETS_COLUMNS_TO_TECHNICAL_NAME[col];
+        if (processBooleanFromSheetsCell(key)) {
           restaurant[key] = processBoolean(row[index]);
         } else {
           restaurant[key] = row[index];
@@ -79,7 +77,7 @@ const arrayToRestaurantInfos = (data: string[][]): RestaurantInfos[] => {
     });
     return jsonData;
   } else {
-    return [];
+    throw new Error(`Header: ${header} is not in the correct format`);
   }
 };
 
@@ -92,11 +90,17 @@ const generateAPIURL = (
 };
 
 export const getAllRestaurantsSheets = async (): Promise<RestaurantInfos[]> => {
-  const RestaurantsTable = await fetch(
-    generateAPIURL(documentID, valuesRange, googleSheetsAPIKey),
-    { headers: { accept: "application/json" }, cache: "no-cache" }
-  ).then((response) => response.json());
-  const data = RestaurantsTable.values;
-  const restaurants = arrayToRestaurantInfos(data);
+  const restaurantsTable = await (
+    await fetch(
+      generateAPIURL(
+        RESTAURANTS_SHEET_ID,
+        SHEET_VALUE_RANGE,
+        GOOGLE_SHEETS_API_KEY
+      ),
+      { headers: { accept: "application/json" }, cache: "no-cache" }
+    )
+  ).json();
+  const data = restaurantsTable.values;
+  const restaurants = googleSheetsDtoToRestaurantInfos(data);
   return restaurants;
 };

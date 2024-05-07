@@ -18,13 +18,14 @@ export const getRandomRestaurantSheets = async (
   };
   console.log("whereClause : ", whereClause)
   
-  type CorrectKey = keyof RestaurantInfos
+  type CorrectKey = keyof RestaurantInfos;
 
-
-  // Correct clause keys are the keys of the RestaurantInfos interface
-  function isCorrectKey(key: any, restaurant: RestaurantInfos): key is CorrectKey {
-    const expectedKeys = Object.keys(restaurant)
-    return expectedKeys.includes(key)
+  function isRestaurantInfoKey(
+    key: any,
+    restaurant: RestaurantInfos
+  ): key is CorrectKey {
+    const expectedKeys = Object.keys(restaurant);
+    return expectedKeys.includes(key);
   }
 
   const restaurantSatisfiesClause = (restaurant: RestaurantInfos, whereClause: any): Boolean => {
