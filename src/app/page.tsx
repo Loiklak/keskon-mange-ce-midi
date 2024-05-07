@@ -5,6 +5,7 @@ import Rat from "@/components/Rat/Rat";
 import { useState } from "react";
 import styles from "./page.module.css";
 import { RestaurantInfos } from "@/core/restaurants/interface";
+import { RestaurantInfosCard } from "@/components/RestaurantInfosCard/RestaurantInfosCard";
 import { useShakeAnimation } from "@/components/RestaurantChoiceCard/useShakeAnimation";
 
 export default function Home() {
