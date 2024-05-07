@@ -28,7 +28,9 @@ export default function RootLayout({
                 <Link href="/">Home</Link>
               </li>
               <li>
-                <Link href="/restaurant-list">Liste restaus</Link>
+                <Link href="https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=0">
+                  Sheets restaus
+                </Link>
               </li>
             </ul>
           </nav>
