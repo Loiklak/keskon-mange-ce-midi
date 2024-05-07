@@ -11,13 +11,13 @@ export const getRandomRestaurantSheets = async (
   const restaurants = await getAllRestaurantsSheets();
 
   type FilterClause = Partial<RestaurantInfos>;
+
   const restaurantFilterClause: FilterClause = {
     canEatIn: restaurantType === RestaurantType.EAT_IN ? true : undefined,
     canTakeAway: restaurantType === RestaurantType.TAKE_AWAY ? true : undefined,
     vegetarianFriendly: diet === Diet.VEGETARIAN ? true : undefined,
     meatLover: diet === Diet.MEATLOVER ? true : undefined,
   };
-  console.log("whereClause : ", restaurantFilterClause);
 
   type CorrectKey = keyof RestaurantInfos;
 
