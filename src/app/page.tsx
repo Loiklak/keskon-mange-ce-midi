@@ -8,6 +8,7 @@ import { Diet } from "@/core/restaurants/diet";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { getRandomRestaurantSheets } from "@/core/restaurants/getRandomRestaurantSheets";
 import { RestaurantInfos } from "@/core/restaurants/interface";
+import { RestaurantInfosCard } from "@/components/RestaurantInfosCard/RestaurantInfosCard";
 
 const restaurantTypeOptions: Option<RestaurantType>[] = [
   {
@@ -95,6 +96,9 @@ export default function Home() {
         restaurant={currentPickedRestaurantSheets}
         getNewRestaurant={pickRandomRestaurantSheets}
       />
+      <RestaurantInfosCard
+        restaurant={currentPickedRestaurantSheets}
+      ></RestaurantInfosCard>
     </div>
   );
 }
