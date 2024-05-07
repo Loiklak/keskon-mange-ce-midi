@@ -16,8 +16,8 @@ export const getRandomRestaurantSheets = async (
     vegetarianFriendly: diet === Diet.VEGETARIAN ? true : undefined,
     meatLover: diet === Diet.MEATLOVER ? true : undefined,
   };
-  console.log("whereClause : ", whereClause)
-  
+  console.log("whereClause : ", whereClause);
+
   type CorrectKey = keyof RestaurantInfos;
 
   function isRestaurantInfoKey(
@@ -28,18 +28,31 @@ export const getRandomRestaurantSheets = async (
     return expectedKeys.includes(key);
   }
 
-  const restaurantSatisfiesClause = (restaurant: RestaurantInfos, whereClause: any): Boolean => {
+  const restaurantSatisfiesClause = (
+    restaurant: RestaurantInfos,
+    whereClause: any
+  ): Boolean => {
     for (const key in whereClause) {
-      if (!isCorrectKey(key, restaurant) || (whereClause[key] !== undefined && restaurant[key] !== whereClause[key])) {
-        return false
+      if (
+        !isRestaurantInfoKey(key, restaurant) ||
+        (whereClause[key] !== undefined && restaurant[key] !== whereClause[key])
+      ) {
+        return false;
       }
     }
-    return true
-  }
+    return true;
+  };
 
-  const filteredRestaurants = restaurants.filter(restaurant => restaurantSatisfiesClause(restaurant, whereClause))
+  const filteredRestaurants = restaurants.filter((restaurant) =>
+    restaurantSatisfiesClause(restaurant, whereClause)
+  );
 
-  console.log("filtered restos : ", filteredRestaurants)
-  console.log("final resto : ", filteredRestaurants[Math.floor(Math.random() * filteredRestaurants.length)])
-  return filteredRestaurants[Math.floor(Math.random() * filteredRestaurants.length)];
-}
+  console.log("filtered restos : ", filteredRestaurants);
+  console.log(
+    "final resto : ",
+    filteredRestaurants[Math.floor(Math.random() * filteredRestaurants.length)]
+  );
+  return filteredRestaurants[
+    Math.floor(Math.random() * filteredRestaurants.length)
+  ];
+};
