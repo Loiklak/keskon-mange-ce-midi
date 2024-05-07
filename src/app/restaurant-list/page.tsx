@@ -1,11 +1,9 @@
 "use server";
-import { getAllRestaurants } from "@/core/restaurants/getAllRestaurants";
 import { getAllRestaurantsSheets } from "@/core/restaurants/getAllRestaurantsSheets";
 
 const booleanToLabel = (value: boolean) => (value ? "✅" : "❌");
 
 export default async function RestaurantList() {
-  const restaurants = await getAllRestaurants();
   const restaurantsSheets = await getAllRestaurantsSheets();
 
   return (

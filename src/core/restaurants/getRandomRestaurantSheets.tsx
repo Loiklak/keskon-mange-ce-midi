@@ -1,7 +1,4 @@
 "use server";
-
-import { Restaurant } from "@prisma/client";
-import prisma from "../../../prisma/singleton";
 import { RestaurantType } from "./restaurantType";
 import { Diet } from "./diet";
 import { getAllRestaurantsSheets } from "./getAllRestaurantsSheets";
