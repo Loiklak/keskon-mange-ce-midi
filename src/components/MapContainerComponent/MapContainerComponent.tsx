@@ -7,10 +7,14 @@ import "leaflet-defaulticon-compatibility";
 
 interface Props {
   name: string;
-  positionRestaurant: [number, number];
+  positionRestaurant: [number, number] | undefined;
 }
 
 const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
+  if (!positionRestaurant) {
+    return null;
+  }
+
   const positionTheodo: LatLngExpression = [48.882737, 2.322391];
   const bounds = latLngBounds([positionRestaurant, positionTheodo]).pad(0.2);
 
