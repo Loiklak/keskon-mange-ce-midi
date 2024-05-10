@@ -6,7 +6,7 @@ export interface RestaurantInfos {
   meatLover: boolean;
   mapUrl: string | null;
   lessThanTenEuros: boolean;
-  restaurantPosition: [number, number];
+  restaurantPosition: [number, number] | undefined;
 }
 
 export type RestaurantBooleanKeys = keyof {

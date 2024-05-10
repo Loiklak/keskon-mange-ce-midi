@@ -131,6 +131,7 @@ const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
   }
 };
 
+<<<<<<< HEAD
 // const processPositionFromSheetsCell = (value: string): [number, number] => {
 //   const position = value.split(",");
 //   if (position.length === 2) {
@@ -141,27 +142,34 @@ const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
 // }
 >>>>>>> 7208e22 (Add maps URL parser to retrieve restaurant position)
 
+=======
+>>>>>>> 1ce2235 (Fix url parser to retrieve actual location)
 const processPositionFromGoogleMapsURL = (
   url: string | null
-): [number, number] => {
+): [number, number] | undefined => {
   if (!url) {
-    return [48, 2]; // A changer default value
+    return;
   }
   const urlSplit = url.split("/");
-  if (urlSplit.length < 6) {
-    return [48, 2]; // A changer default value
+  if (urlSplit.length < 7) {
+    return;
   }
-  const positionString = urlSplit[6].slice(1, -4);
-  const position = positionString
-    .split(",")
-    .map((string) => parseFloat(string));
-  console.log(position);
-  if (position.length !== 2) {
-    return [48, 2]; // A changer default value
+  const urlDataSplit = urlSplit[7].split("!3d");
+  if (urlDataSplit.length < 1) {
+    return;
   }
-  return [position[0], position[1]];
-};
+  const latitudeSplit = urlDataSplit[1].split("!4d");
+  if (latitudeSplit.length < 1) {
+    return;
+  }
+  const latitudeString = latitudeSplit[0];
+  const longitudeSplit = latitudeSplit[1].split("!");
+  if (longitudeSplit.length < 1) {
+    return;
+  }
+  const longitudeString = longitudeSplit[0];
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 function isCorrectHeader(
   header: string[]
@@ -206,6 +214,10 @@ const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
 //     throw new Error(`${value} value is not in "latitude,longitude" format`);
 //   }
 // }
+=======
+  return [parseFloat(latitudeString), parseFloat(longitudeString)];
+};
+>>>>>>> 1ce2235 (Fix url parser to retrieve actual location)
 
 const generateAPIURL = (
   documentID: string | undefined,
