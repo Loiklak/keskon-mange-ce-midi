@@ -5,10 +5,10 @@ const Rat = () => {
   return (
     <div className={styles.rat}>
       <img height={40} src="/chef-rat.png" alt="rat" />
-      <div className={styles.bg_red}>
+      <div className={styles.oeil_a_droite}>
         <TrackingEye />
       </div>
-      <div className={styles.bg_black}>
+      <div className={styles.oeil_a_gauche}>
         <TrackingEye />
       </div>
     </div>

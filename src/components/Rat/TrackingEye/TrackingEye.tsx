@@ -1,9 +1,11 @@
 import useMousePosition from "@/hooks/useMousePosition";
+import useScrollPosition from "@/hooks/useScrollPostition";
 import styles from "./TrackingEye.module.css";
 import { useRef, useState, useEffect } from "react";
 
 const TrackingEye = () => {
   const mousePosition = useMousePosition();
+  const scrollPositionY = useScrollPosition();
 
   const boxRef = useRef<HTMLDivElement | null>(null);
 
@@ -14,8 +16,10 @@ const TrackingEye = () => {
 
   const getPosition = () => {
     var element: null | HTMLElement | Element = boxRef.current;
-    var y = 0;
     var x = 0;
+    var y = 0;
+    console.log("scrollX : %d", window.scrollX);
+    console.log("scrollY : %d", window.scrollY);
     while (element) {
       if (element instanceof HTMLElement) {
         x += element.offsetLeft;
@@ -39,15 +43,13 @@ const TrackingEye = () => {
   useEffect(() => {
     if (mousePosition.x && xEye) {
       setXTranslation((100 * (mousePosition.x - xEye)) / window.innerWidth);
-    } else {
-      setXTranslation(0);
     }
     if (mousePosition.y && yEye) {
-      setYTranslation((100 * (mousePosition.y - yEye)) / innerHeight);
-    } else {
-      setYTranslation(0);
+      setYTranslation(
+        (100 * (mousePosition.y + scrollPositionY - yEye)) / innerHeight
+      );
     }
-  }, [mousePosition, xEye, yEye]);
+  }, [mousePosition, xEye, yEye, scrollPositionY]);
 
   return (
     <div>
@@ -59,7 +61,7 @@ const TrackingEye = () => {
               "translate(" +
               String(-50 + xTranslation) +
               "%, " +
-              String(-50 + yTranslation) +
+              String(50 + yTranslation) +
               "%)",
           }}
           ref={boxRef}

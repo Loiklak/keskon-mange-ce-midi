@@ -18,12 +18,11 @@
   aspect-ratio: 1 / 1;
   background: white;
   border-radius: 50%;
-  overflow: hidden;
 }
 
 .eyeBall {
   position: relative;
-  top: 50%;
+  top: 0%;
   left: 50%;
   width: 30%;
   aspect-ratio: 2 / 3;
