@@ -12,7 +12,7 @@ interface Props {
 
 const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
   const positionTheodo: LatLngExpression = [48.882737, 2.322391];
-  const bounds = latLngBounds([positionRestaurant, positionTheodo]);
+  const bounds = latLngBounds([positionRestaurant, positionTheodo]).pad(0.2);
 
   return (
     <MapContainer
