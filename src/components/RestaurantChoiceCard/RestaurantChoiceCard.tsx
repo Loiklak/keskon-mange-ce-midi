@@ -10,12 +10,14 @@ import { Diet } from "@/core/restaurants/diet";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { getRandomRestaurantSheets } from "@/core/restaurants/getRandomRestaurantSheets";
 import { ToggleOptionPicker } from "./OptionPicker/ToggleOptionPicker";
-import { useShakeAnimation } from "./useShakeAnimation";
+import Rat from "@/components/Rat/Rat";
 import { on } from "events";
 
 interface Props {
   onPickRestaurant: (restaurant: RestaurantInfos | undefined) => void;
   currentRestaurantPicked: RestaurantInfos | undefined;
+  onRatModeChange: (ratMode: boolean) => void;
+  isRatModeActivated: boolean | undefined;
 }
 
 const restaurantTypeOptions: Option<RestaurantType>[] = [
@@ -53,16 +55,17 @@ const DIET_LOCAL_STORAGE_KEY = "diet";
 const RestaurantChoiceCard: FC<Props> = ({
   onPickRestaurant,
   currentRestaurantPicked,
+  onRatModeChange,
+  isRatModeActivated,
 }) => {
   const [restaurantType, setRestaurantType] = useState<RestaurantType>(
     RestaurantType.WHATEVER
   );
+
   const [diet, setDiet] = useLocalStorage<Diet>(
     DIET_LOCAL_STORAGE_KEY,
     Diet.MIXED
   );
-
-  const [isRatModeActivated, setIsRatModeActivated] = useState<boolean>(false);
 
   const pickRandomRestaurant = () => {
     onPickRestaurant(undefined);
@@ -96,7 +99,7 @@ const RestaurantChoiceCard: FC<Props> = ({
 
         <ToggleOptionPicker
           label="Mode rat 🐀"
-          onChange={(v) => setIsRatModeActivated(v)}
+          onChange={(v) => onRatModeChange(v)}
         />
         <button
           onClick={pickRandomRestaurant}

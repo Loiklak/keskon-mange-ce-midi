@@ -7,7 +7,7 @@ import { RestaurantInfos } from "./interface";
 export const getRandomRestaurantSheets = async (
   restaurantType: RestaurantType,
   diet: Diet,
-  ratMode: boolean
+  ratMode: boolean | undefined
 ): Promise<RestaurantInfos> => {
   const restaurants = await getAllRestaurantsSheets();
 
@@ -16,7 +16,7 @@ export const getRandomRestaurantSheets = async (
     takeAwayMandatory: restaurantType === RestaurantType.TAKE_AWAY,
     vegetarianOptionMandatory: diet === Diet.VEGETARIAN,
     meatOptionMandatory: diet === Diet.MEATLOVER,
-    lessThanTenEurosMandatory: ratMode,
+    lessThanTenEurosMandatory: ratMode === true,
   };
 
   const USER_CHOICE_TO_RESTAURANT_PROPERTIES = {
