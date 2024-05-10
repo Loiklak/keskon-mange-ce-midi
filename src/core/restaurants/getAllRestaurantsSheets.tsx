@@ -24,45 +24,17 @@ export const getAllRestaurantsSheets = async (): Promise<RestaurantInfos[]> => {
   return restaurants;
 };
 
+const generateAPIURL = (
+  documentID: string | undefined,
+  valuesRange: string | undefined,
+  googleSheetsAPIKey: string | undefined
+) => {
+  return `https://sheets.googleapis.com/v4/spreadsheets/${documentID}/values/${valuesRange}?key=${googleSheetsAPIKey}`;
+};
+
 const RESTAURANTS_SHEET_ID = process.env.RESTAURANTS_SHEET_ID;
 const SHEET_VALUE_RANGE = process.env.SHEET_VALUE_RANGE;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
-
-const SHEETS_COLUMNS_TO_TECHNICAL_NAME = {
-  Restaurant: "name",
-  "Sur place": "canEatIn",
-  "A emporter": "canTakeAway",
-  Vege: "vegetarianFriendly",
-  Viandard: "meatLover",
-  "URL maps": "mapUrl",
-  "Moins de 10€": "lessThanTenEuros",
-} as const;
-
-type GoogleSheetsExpectedColumnNames =
-  keyof typeof SHEETS_COLUMNS_TO_TECHNICAL_NAME;
-
-function isCorrectHeader(
-  header: string[]
-): header is GoogleSheetsExpectedColumnNames[] {
-  const expectedHeader = Object.keys(SHEETS_COLUMNS_TO_TECHNICAL_NAME);
-  return header.every((col) => expectedHeader.includes(col));
-}
-
-function isBooleanFromGoogleSheetsCell(
-  key: string
-): key is RestaurantBooleanKeys {
-  return restaurantBooleanKeys.includes(key);
-}
-
-const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
-  if (value === "TRUE") {
-    return true;
-  } else if (value === "FALSE") {
-    return false;
-  } else {
-    throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
-  }
-};
 
 const googleSheetsDtoToRestaurantInfos = (
   data: string[][]
@@ -97,10 +69,38 @@ const googleSheetsDtoToRestaurantInfos = (
   }
 };
 
-const generateAPIURL = (
-  documentID: string | undefined,
-  valuesRange: string | undefined,
-  googleSheetsAPIKey: string | undefined
-) => {
-  return `https://sheets.googleapis.com/v4/spreadsheets/${documentID}/values/${valuesRange}?key=${googleSheetsAPIKey}`;
+function isCorrectHeader(
+  header: string[]
+): header is GoogleSheetsExpectedColumnNames[] {
+  const expectedHeader = Object.keys(SHEETS_COLUMNS_TO_TECHNICAL_NAME);
+  return header.every((col) => expectedHeader.includes(col));
+}
+
+type GoogleSheetsExpectedColumnNames =
+  keyof typeof SHEETS_COLUMNS_TO_TECHNICAL_NAME;
+
+const SHEETS_COLUMNS_TO_TECHNICAL_NAME = {
+  Restaurant: "name",
+  "Sur place": "canEatIn",
+  "A emporter": "canTakeAway",
+  Vege: "vegetarianFriendly",
+  Viandard: "meatLover",
+  "URL maps": "mapUrl",
+  "Moins de 10€": "lessThanTenEuros",
+} as const;
+
+function isBooleanFromGoogleSheetsCell(
+  key: string
+): key is RestaurantBooleanKeys {
+  return restaurantBooleanKeys.includes(key);
+}
+
+const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
+  if (value === "TRUE") {
+    return true;
+  } else if (value === "FALSE") {
+    return false;
+  } else {
+    throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
+  }
 };

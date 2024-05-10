@@ -47,11 +47,6 @@ export const getRandomRestaurantSheets = async (
     restaurantSatisfiesClause(restaurant, restaurantFilterClause)
   );
 
-  console.log("filtered restos : ", filteredRestaurants);
-  console.log(
-    "final resto : ",
-    filteredRestaurants[Math.floor(Math.random() * filteredRestaurants.length)]
-  );
   return filteredRestaurants[
     Math.floor(Math.random() * filteredRestaurants.length)
   ];
