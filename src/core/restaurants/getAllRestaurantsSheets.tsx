@@ -95,6 +95,8 @@ const googleSheetsDtoToRestaurantInfos = (
             row[index]
           );
           restaurant[key] = row[index];
+        } else {
+          restaurant[key] = row[index];
         }
       });
 
