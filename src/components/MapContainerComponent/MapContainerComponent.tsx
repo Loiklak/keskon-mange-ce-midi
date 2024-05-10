@@ -1,9 +1,10 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LatLngExpression, latLngBounds } from "leaflet";
+import { latLngBounds } from "leaflet";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
 import "leaflet-defaulticon-compatibility";
+import { positionTheodo } from "@/lib/utils";
 
 interface Props {
   name: string;
@@ -15,7 +16,6 @@ const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
     return null;
   }
 
-  const positionTheodo: LatLngExpression = [48.882737, 2.322391];
   const bounds = latLngBounds([positionRestaurant, positionTheodo]).pad(0.2);
 
   return (
