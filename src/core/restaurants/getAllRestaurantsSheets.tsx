@@ -9,6 +9,11 @@ import {
 } from "./interface";
 
 export const getAllRestaurantsSheets = async (): Promise<RestaurantInfos[]> => {
+  if (!RESTAURANTS_SHEET_ID || !SHEET_VALUE_RANGE || !GOOGLE_SHEETS_API_KEY) {
+    throw new Error(
+      `documentID: ${RESTAURANTS_SHEET_ID}, valuesRange: ${SHEET_VALUE_RANGE}, googleSheetsAPIKey: ${GOOGLE_SHEETS_API_KEY} must all be defined`
+    );
+  }
   const restaurantsTable = await (
     await fetch(
       generateAPIURL(
@@ -19,20 +24,14 @@ export const getAllRestaurantsSheets = async (): Promise<RestaurantInfos[]> => {
       { headers: { accept: "application/json" }, cache: "no-cache" }
     )
   ).json();
-  const restaurants = googleSheetsDtoToRestaurantInfos(restaurantsTable.values);
-  return restaurants;
+  return googleSheetsDtoToRestaurantInfos(restaurantsTable.values);
 };
 
 const generateAPIURL = (
-  documentID: string | undefined,
-  valuesRange: string | undefined,
-  googleSheetsAPIKey: string | undefined
+  documentID: string,
+  valuesRange: string,
+  googleSheetsAPIKey: string
 ) => {
-  if (!documentID || !valuesRange || !googleSheetsAPIKey) {
-    throw new Error(
-      `documentID: ${documentID}, valuesRange: ${valuesRange}, googleSheetsAPIKey: ${googleSheetsAPIKey} must all be defined`
-    );
-  }
   return `https://sheets.googleapis.com/v4/spreadsheets/${documentID}/values/${valuesRange}?key=${googleSheetsAPIKey}`;
 };
 
