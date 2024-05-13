@@ -22,7 +22,7 @@ export const getRandomRestaurantSheets = async (
   type CorrectKey = keyof RestaurantInfos;
 
   function isRestaurantInfoKey(
-    key: any,
+    key: string,
     restaurant: RestaurantInfos
   ): key is CorrectKey {
     const expectedKeys = Object.keys(restaurant);
