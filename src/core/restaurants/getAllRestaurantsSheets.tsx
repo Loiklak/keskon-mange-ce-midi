@@ -19,8 +19,7 @@ export const getAllRestaurantsSheets = async (): Promise<RestaurantInfos[]> => {
       { headers: { accept: "application/json" }, cache: "no-cache" }
     )
   ).json();
-  const data = restaurantsTable.values;
-  const restaurants = googleSheetsDtoToRestaurantInfos(data);
+  const restaurants = googleSheetsDtoToRestaurantInfos(restaurantsTable.values);
   return restaurants;
 };
 
