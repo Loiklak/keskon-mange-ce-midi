@@ -41,10 +41,10 @@ const SHEET_VALUE_RANGE = process.env.SHEET_VALUE_RANGE;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
 const googleSheetsDtoToRestaurantInfos = (
-  data: string[][]
+  googleSheetsContent: string[][]
 ): RestaurantInfos[] => {
-  const header: string[] = data[0];
-  const content = data.slice(1);
+  const header: string[] = googleSheetsContent[0];
+  const content = googleSheetsContent.slice(1);
   if (isCorrectHeader(header)) {
     const jsonData = content.map((row) => {
       const restaurant: RestaurantInfos = {
