@@ -10,44 +10,56 @@ export const getRandomRestaurantSheets = async (
 ): Promise<RestaurantInfos> => {
   const restaurants = await getAllRestaurantsSheets();
 
-  type FilterClause = Partial<RestaurantInfos>;
-
-  const restaurantFilterClause: FilterClause = {
-    canEatIn: restaurantType === RestaurantType.EAT_IN,
-    canTakeAway: restaurantType === RestaurantType.TAKE_AWAY,
-    vegetarianFriendly: diet === Diet.VEGETARIAN,
-    meatLover: diet === Diet.MEATLOVER,
+  const userChoiceFilter: Record<CorrectUserChoiceFilterKey, boolean> = {
+    eatInMandatory: restaurantType === RestaurantType.EAT_IN,
+    takeAwayMandatory: restaurantType === RestaurantType.TAKE_AWAY,
+    vegetarianOptionMandatory: diet === Diet.VEGETARIAN,
+    meatOptionMandatory: diet === Diet.MEATLOVER,
   };
 
-  type CorrectKey = keyof RestaurantInfos;
-
-  function isRestaurantInfoKey(
-    key: string,
-    restaurant: RestaurantInfos
-  ): key is CorrectKey {
-    const expectedKeys = Object.keys(restaurant);
-    return expectedKeys.includes(key);
-  }
-
-  const restaurantSatisfiesClause = (
-    restaurant: RestaurantInfos,
-    whereClause: FilterClause
-  ): Boolean => {
-    for (const key in whereClause) {
-      if (!isRestaurantInfoKey(key, restaurant)) {
-        throw new Error(`Invalid key ${key} in filter clause.`);
-      } else if (whereClause[key] && !restaurant[key]) {
-        return false;
-      }
-    }
-    return true;
-  };
+  const USER_CHOICE_TO_RESTAURANT_PROPERTIES = {
+    eatInMandatory: "canEatIn",
+    takeAwayMandatory: "canTakeAway",
+    vegetarianOptionMandatory: "vegetarianFriendly",
+    meatOptionMandatory: "meatLover",
+  } as const;
 
   const filteredRestaurants = restaurants.filter((restaurant) =>
-    restaurantSatisfiesClause(restaurant, restaurantFilterClause)
+    restaurantSatisfiesUserChoice(restaurant, userChoiceFilter)
   );
 
   return filteredRestaurants[
     Math.floor(Math.random() * filteredRestaurants.length)
   ];
+
+  function restaurantSatisfiesUserChoice(
+    restaurant: RestaurantInfos,
+    userChoiceFilter: Record<CorrectUserChoiceFilterKey, boolean>
+  ): Boolean {
+    for (const key in userChoiceFilter) {
+      if (isCorrectUserChoiceFilterKey(key)) {
+        if (
+          userChoiceFilter[key] &&
+          !restaurant[USER_CHOICE_TO_RESTAURANT_PROPERTIES[key]]
+        ) {
+          return false;
+        }
+      } else {
+        throw new Error(`Invalid key ${key} in filter clause.`);
+      }
+    }
+    return true;
+  }
+
+  function isCorrectUserChoiceFilterKey(
+    key: string
+  ): key is CorrectUserChoiceFilterKey {
+    const correctUserChoiceFilterKeys = Object.keys(
+      USER_CHOICE_TO_RESTAURANT_PROPERTIES
+    );
+    return correctUserChoiceFilterKeys.includes(key);
+  }
+
+  type CorrectUserChoiceFilterKey =
+    keyof typeof USER_CHOICE_TO_RESTAURANT_PROPERTIES;
 };
