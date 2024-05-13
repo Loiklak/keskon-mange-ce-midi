@@ -28,6 +28,11 @@ const generateAPIURL = (
   valuesRange: string | undefined,
   googleSheetsAPIKey: string | undefined
 ) => {
+  if (!documentID || !valuesRange || !googleSheetsAPIKey) {
+    throw new Error(
+      `documentID: ${documentID}, valuesRange: ${valuesRange}, googleSheetsAPIKey: ${googleSheetsAPIKey} must all be defined`
+    );
+  }
   return `https://sheets.googleapis.com/v4/spreadsheets/${documentID}/values/${valuesRange}?key=${googleSheetsAPIKey}`;
 };
 
