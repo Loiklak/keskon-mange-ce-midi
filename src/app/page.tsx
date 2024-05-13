@@ -8,6 +8,9 @@ import { RestaurantType } from "@/core/restaurants/restaurantType";
 import { Option, SingleOptionPicker } from "@/components/SingleOptionPicker";
 import { Diet } from "@/core/restaurants/diet";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { getRandomRestaurantSheets } from "@/core/restaurants/getRandomRestaurantSheets";
+import { RestaurantInfos } from "@/core/restaurants/interface";
+import Rat from "@/components/Rat/Rat";
 
 const restaurantTypeOptions: Option<RestaurantType>[] = [
   {
@@ -42,6 +45,8 @@ const dietOptions: Option<Diet>[] = [
 const DIET_LOCAL_STORAGE_KEY = "diet";
 
 export default function Home() {
+  const [currentPickedRestaurantSheets, setCurrentPickedRestaurantSheets] =
+    useState<RestaurantInfos | undefined>();
   const [currentPickedRestaurant, setCurrentPickedRestaurant] = useState<
     Restaurant | undefined
   >();
@@ -60,9 +65,17 @@ export default function Home() {
     );
   };
 
+  const pickRandomRestaurantSheets = () => {
+    setCurrentPickedRestaurantSheets(undefined);
+    getRandomRestaurantSheets(restaurantType, diet).then((restaurant) => {
+      setCurrentPickedRestaurantSheets(restaurant);
+    });
+  };
+
   useEffect(() => {
     pickRandomRestaurant();
-  }, []);
+    pickRandomRestaurantSheets();
+  }, [restaurantType, diet]);
 
   return (
     <div className="flex flex-col items-center gap-6 lg:gap-8 p-10 lg:p-10">
@@ -88,9 +101,11 @@ export default function Home() {
         />
       </div>
 
+      <Rat />
+
       <RestaurantCard
-        restaurant={currentPickedRestaurant}
-        getNewRestaurant={pickRandomRestaurant}
+        restaurant={currentPickedRestaurantSheets}
+        getNewRestaurant={pickRandomRestaurantSheets}
       />
     </div>
   );

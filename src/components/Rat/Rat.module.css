@@ -1,0 +1,24 @@
+.rat {
+  width: 30%;
+  height: 30%;
+  position: relative;
+  margin-top: 10%;
+  margin-left: 30%;
+  z-index: 1;
+}
+
+.oeil_a_droite {
+  position: absolute;
+  z-index: -1;
+  width: 18%;
+  margin-left: 60.5%;
+  margin-top: -32.5%;
+}
+
+.oeil_a_gauche {
+  position: absolute;
+  margin-left: 48.5%;
+  margin-top: -32.5%;
+  z-index: -1;
+  width: 13%;
+}
