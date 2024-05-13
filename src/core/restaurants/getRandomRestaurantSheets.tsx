@@ -13,10 +13,10 @@ export const getRandomRestaurantSheets = async (
   type FilterClause = Partial<RestaurantInfos>;
 
   const restaurantFilterClause: FilterClause = {
-    canEatIn: restaurantType === RestaurantType.EAT_IN ? true : undefined,
-    canTakeAway: restaurantType === RestaurantType.TAKE_AWAY ? true : undefined,
-    vegetarianFriendly: diet === Diet.VEGETARIAN ? true : undefined,
-    meatLover: diet === Diet.MEATLOVER ? true : undefined,
+    canEatIn: restaurantType === RestaurantType.EAT_IN,
+    canTakeAway: restaurantType === RestaurantType.TAKE_AWAY,
+    vegetarianFriendly: diet === Diet.VEGETARIAN,
+    meatLover: diet === Diet.MEATLOVER,
   };
 
   type CorrectKey = keyof RestaurantInfos;
@@ -36,7 +36,7 @@ export const getRandomRestaurantSheets = async (
     for (const key in whereClause) {
       if (!isRestaurantInfoKey(key, restaurant)) {
         throw new Error(`Invalid key ${key} in filter clause.`);
-      } else if (whereClause[key] && restaurant[key] !== whereClause[key]) {
+      } else if (whereClause[key] && !restaurant[key]) {
         return false;
       }
     }
