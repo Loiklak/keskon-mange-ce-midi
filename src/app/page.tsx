@@ -43,7 +43,7 @@ const DIET_LOCAL_STORAGE_KEY = "diet";
 
 export default function Home() {
   const [currentPickedRestaurantSheets, setCurrentPickedRestaurantSheets] =
-    useState<RestaurantInfos | undefined>();
+    useState<RestaurantInfos>();
   const [restaurantType, setRestaurantType] = useState<RestaurantType>(
     RestaurantType.WHATEVER
   );
