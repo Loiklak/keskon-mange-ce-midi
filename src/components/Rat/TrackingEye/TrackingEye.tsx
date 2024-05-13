@@ -57,12 +57,9 @@ const TrackingEye = () => {
         <div
           className={styles.eyeBall}
           style={{
-            transform:
-              "translate(" +
-              String(-50 + xTranslation) +
-              "%, " +
-              String(50 + yTranslation) +
-              "%)",
+            transform: `translate(${-50 + xTranslation}%, ${
+              50 + yTranslation
+            }%)`,
           }}
           ref={boxRef}
         />
