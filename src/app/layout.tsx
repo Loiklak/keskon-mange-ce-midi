@@ -32,6 +32,7 @@ export default function RootLayout({
               <li>
                 <Link
                   href={`https://docs.google.com/spreadsheets/d/${RESTAURANTS_SHEET_ID}/edit#gid=0`}
+                  target="_blank"
                 >
                   Sheets restaus
                 </Link>
