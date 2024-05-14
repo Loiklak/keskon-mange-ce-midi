@@ -93,26 +93,32 @@ const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
     throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
   }
 };
-
 const processPositionFromGoogleMapsURL = (
   url: string | null
-): [number, number] => {
+): [number, number] | undefined => {
   if (!url) {
-    return [48, 2]; // A changer default value
+    return;
   }
   const urlSplit = url.split("/");
-  if (urlSplit.length < 6) {
-    return [48, 2]; // A changer default value
+  if (urlSplit.length < 7) {
+    return;
   }
-  const positionString = urlSplit[6].slice(1, -4);
-  const position = positionString
-    .split(",")
-    .map((string) => parseFloat(string));
-  console.log(position);
-  if (position.length !== 2) {
-    return [48, 2]; // A changer default value
+  const urlDataSplit = urlSplit[7].split("!3d");
+  if (urlDataSplit.length < 1) {
+    return;
   }
-  return [position[0], position[1]];
+  const latitudeSplit = urlDataSplit[1].split("!4d");
+  if (latitudeSplit.length < 1) {
+    return;
+  }
+  const latitudeString = latitudeSplit[0];
+  const longitudeSplit = latitudeSplit[1].split("!");
+  if (longitudeSplit.length < 1) {
+    return;
+  }
+  const longitudeString = longitudeSplit[0];
+
+  return [parseFloat(latitudeString), parseFloat(longitudeString)];
 };
 
 function isCorrectHeader(
