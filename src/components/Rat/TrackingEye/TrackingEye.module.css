@@ -1,0 +1,32 @@
+.body {
+  background: #4f4fdb;
+  text-align: center;
+}
+
+.h1 {
+  font-family: Mate Sc;
+  font-size: 3em;
+  color: white;
+}
+
+.eye {
+  position: relative;
+  top: 0%;
+  left: 0%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: white;
+  border-radius: 50%;
+}
+
+.eyeBall {
+  position: relative;
+  top: 0%;
+  left: 50%;
+  width: 30%;
+  aspect-ratio: 2 / 3;
+  background: black;
+  border-radius: 50%;
+  transition: 0;
+}
