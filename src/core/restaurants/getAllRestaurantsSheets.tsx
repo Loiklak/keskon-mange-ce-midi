@@ -39,32 +39,11 @@ const RESTAURANTS_SHEET_ID = process.env.RESTAURANTS_SHEET_ID;
 const SHEET_VALUE_RANGE = process.env.SHEET_VALUE_RANGE;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
-<<<<<<< HEAD
 const googleSheetsDtoToRestaurantInfos = (
   googleSheetsContent: string[][]
 ): RestaurantInfos[] => {
   const header: string[] = googleSheetsContent[0];
   const content = googleSheetsContent.slice(1);
-=======
-const SHEETS_COLUMNS_TO_TECHNICAL_NAME = {
-  Restaurant: "name",
-  "Sur place": "canEatIn",
-  "A emporter": "canTakeAway",
-  Vege: "vegetarianFriendly",
-  Viandard: "meatLover",
-  "URL maps": "mapUrl",
-  "Moins de 10€": "lessThanTenEuros",
-} as const;
-
-type GoogleSheetsExpectedColumnNames =
-  keyof typeof SHEETS_COLUMNS_TO_TECHNICAL_NAME;
-
-const googleSheetsDtoToRestaurantInfos = (
-  data: string[][]
-): RestaurantInfos[] => {
-  const header: string[] = data[0];
-  const content = data.slice(1);
->>>>>>> 7208e22 (Add maps URL parser to retrieve restaurant position)
   if (isCorrectHeader(header)) {
     const jsonData = content.map((row) => {
       const restaurant: RestaurantInfos = {
@@ -75,21 +54,12 @@ const googleSheetsDtoToRestaurantInfos = (
         meatLover: false,
         mapUrl: "https://www.google.com/maps",
         lessThanTenEuros: true,
-<<<<<<< HEAD
-=======
         restaurantPosition: [48, 2],
->>>>>>> 7208e22 (Add maps URL parser to retrieve restaurant position)
       };
       header.forEach((col, index) => {
         const key = SHEETS_COLUMNS_TO_TECHNICAL_NAME[col];
         if (isBooleanFromGoogleSheetsCell(key)) {
           restaurant[key] = processBooleanFromGoogleSheetsCell(row[index]);
-<<<<<<< HEAD
-        } else {
-          restaurant[key] = row[index];
-        }
-      });
-=======
         } else if (key === "mapUrl") {
           restaurant.restaurantPosition = processPositionFromGoogleMapsURL(
             row[index]
@@ -108,13 +78,6 @@ const googleSheetsDtoToRestaurantInfos = (
   }
 };
 
-function isCorrectHeader(
-  header: string[]
-): header is GoogleSheetsExpectedColumnNames[] {
-  const expectedHeader = Object.keys(SHEETS_COLUMNS_TO_TECHNICAL_NAME);
-  return header.every((col) => expectedHeader.includes(col));
-}
-
 function isBooleanFromGoogleSheetsCell(
   key: string
 ): key is RestaurantBooleanKeys {
@@ -131,46 +94,27 @@ const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
   }
 };
 
-<<<<<<< HEAD
-// const processPositionFromSheetsCell = (value: string): [number, number] => {
-//   const position = value.split(",");
-//   if (position.length === 2) {
-//     return [parseFloat(position[0]), parseFloat(position[1])];
-//   } else {
-//     throw new Error(`${value} value is not in "latitude,longitude" format`);
-//   }
-// }
->>>>>>> 7208e22 (Add maps URL parser to retrieve restaurant position)
-
-=======
->>>>>>> 1ce2235 (Fix url parser to retrieve actual location)
 const processPositionFromGoogleMapsURL = (
   url: string | null
-): [number, number] | undefined => {
+): [number, number] => {
   if (!url) {
-    return;
+    return [48, 2]; // A changer default value
   }
   const urlSplit = url.split("/");
-  if (urlSplit.length < 7) {
-    return;
+  if (urlSplit.length < 6) {
+    return [48, 2]; // A changer default value
   }
-  const urlDataSplit = urlSplit[7].split("!3d");
-  if (urlDataSplit.length < 1) {
-    return;
+  const positionString = urlSplit[6].slice(1, -4);
+  const position = positionString
+    .split(",")
+    .map((string) => parseFloat(string));
+  console.log(position);
+  if (position.length !== 2) {
+    return [48, 2]; // A changer default value
   }
-  const latitudeSplit = urlDataSplit[1].split("!4d");
-  if (latitudeSplit.length < 1) {
-    return;
-  }
-  const latitudeString = latitudeSplit[0];
-  const longitudeSplit = latitudeSplit[1].split("!");
-  if (longitudeSplit.length < 1) {
-    return;
-  }
-  const longitudeString = longitudeSplit[0];
+  return [position[0], position[1]];
+};
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 function isCorrectHeader(
   header: string[]
 ): header is GoogleSheetsExpectedColumnNames[] {
@@ -190,40 +134,3 @@ const SHEETS_COLUMNS_TO_TECHNICAL_NAME = {
   "URL maps": "mapUrl",
   "Moins de 10€": "lessThanTenEuros",
 } as const;
-
-function isBooleanFromGoogleSheetsCell(
-  key: string
-): key is RestaurantBooleanKeys {
-  return restaurantBooleanKeys.includes(key);
-}
-
-const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
-  if (value === "TRUE") {
-    return true;
-  } else if (value === "FALSE") {
-    return false;
-  } else {
-    throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
-  }
-=======
-// const processPositionFromSheetsCell = (value: string): [number, number] => {
-//   const position = value.split(",");
-//   if (position.length === 2) {
-//     return [parseFloat(position[0]), parseFloat(position[1])];
-//   } else {
-//     throw new Error(`${value} value is not in "latitude,longitude" format`);
-//   }
-// }
-=======
-  return [parseFloat(latitudeString), parseFloat(longitudeString)];
-};
->>>>>>> 1ce2235 (Fix url parser to retrieve actual location)
-
-const generateAPIURL = (
-  documentID: string | undefined,
-  valuesRange: string | undefined,
-  googleSheetsAPIKey: string | undefined
-) => {
-  return `https://sheets.googleapis.com/v4/spreadsheets/${documentID}/values/${valuesRange}?key=${googleSheetsAPIKey}`;
->>>>>>> 7208e22 (Add maps URL parser to retrieve restaurant position)
-};
