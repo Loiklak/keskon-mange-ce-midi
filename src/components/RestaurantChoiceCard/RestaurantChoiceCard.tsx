@@ -15,7 +15,8 @@ import { useShakeAnimation } from "./useShakeAnimation";
 import { on } from "events";
 
 interface Props {
-  onPickRestaurant: (restaurant: Restaurant) => void;
+  onPickRestaurant: (restaurant: Restaurant | undefined) => void;
+  currentRestaurantPicked: Restaurant | undefined;
 }
 
 const restaurantTypeOptions: Option<RestaurantType>[] = [
@@ -50,10 +51,10 @@ const dietOptions: Option<Diet>[] = [
 
 const DIET_LOCAL_STORAGE_KEY = "diet";
 
-const RestaurantChoiceCard: FC<Props> = ({ onPickRestaurant }) => {
-  const [currentPickedRestaurant, setCurrentPickedRestaurant] = useState<
-    Restaurant | undefined
-  >();
+const RestaurantChoiceCard: FC<Props> = ({
+  onPickRestaurant,
+  currentRestaurantPicked,
+}) => {
   const [restaurantType, setRestaurantType] = useState<RestaurantType>(
     RestaurantType.WHATEVER
   );
@@ -65,10 +66,9 @@ const RestaurantChoiceCard: FC<Props> = ({ onPickRestaurant }) => {
   const [isRatModeActivated, setIsRatModeActivated] = useState<boolean>(false);
 
   const pickRandomRestaurant = () => {
-    setCurrentPickedRestaurant(undefined);
+    onPickRestaurant(undefined);
     getRandomRestaurant(restaurantType, diet, isRatModeActivated).then(
       (restaurant) => {
-        setCurrentPickedRestaurant(restaurant);
         onPickRestaurant(restaurant);
       }
     );
@@ -101,7 +101,12 @@ const RestaurantChoiceCard: FC<Props> = ({ onPickRestaurant }) => {
         />
         <button
           onClick={pickRandomRestaurant}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex-auto flex-col"
+          className={`font-bold py-2 px-4 rounded flex-auto flex-col ${
+            currentRestaurantPicked
+              ? "bg-red-500 hover:bg-red-700 text-white"
+              : "bg-red-700 text-gray-300 cursor-not-allowed"
+          }`}
+          disabled={!currentRestaurantPicked}
         >
           GO
         </button>

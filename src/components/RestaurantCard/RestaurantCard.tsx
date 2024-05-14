@@ -1,15 +1,31 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Restaurant } from "@prisma/client";
 import { Badge } from "../ui/badge";
 import styles from "./RestaurantCard.module.css";
 
 type Props = {
   restaurant?: Restaurant | undefined;
+  startAnimate: () => void;
+  stopAnimate: () => void;
+  animRef: any;
 };
 
-const RestaurantCard: FC<Props> = ({ restaurant }) => {
+const RestaurantCard: FC<Props> = ({
+  restaurant,
+  startAnimate,
+  stopAnimate,
+  animRef,
+}) => {
+  useEffect(() => {
+    if (restaurant === undefined) {
+      startAnimate();
+    } else {
+      stopAnimate();
+    }
+  }, [restaurant]);
+
   return (
-    <div className={styles["restaurant-card"]}>
+    <div className={styles["restaurant-card"]} ref={animRef}>
       <div className={styles["inner-card"]}>
         <h1 className={styles["restaurant-name"]}>{restaurant?.name}</h1>
       </div>

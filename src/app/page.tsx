@@ -1,18 +1,18 @@
 "use client";
 import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
 import RestaurantChoiceCard from "@/components/RestaurantChoiceCard/RestaurantChoiceCard";
-import { useState } from "react";
 import styles from "./page.module.css";
 import { Restaurant } from "@prisma/client";
+import { useShakeAnimation } from "@/components/RestaurantChoiceCard/useShakeAnimation";
+import { useState } from "react";
 
 export default function Home() {
   const [currentRestaurant, setCurrentRestaurant] = useState<
     Restaurant | undefined
   >();
 
-  const handleRestaurantChange = (restaurant: Restaurant) => {
-    setCurrentRestaurant(restaurant);
-  };
+  const { animationContainerRef, startAnimate, stopAnimate } =
+    useShakeAnimation<HTMLButtonElement>();
 
   return (
     <div className={styles.container}>
@@ -21,10 +21,18 @@ export default function Home() {
       </h1>
       <div className={styles.content}>
         <div className={styles["choice-card"]}>
-          <RestaurantChoiceCard onPickRestaurant={setCurrentRestaurant} />
+          <RestaurantChoiceCard
+            onPickRestaurant={setCurrentRestaurant}
+            currentRestaurantPicked={currentRestaurant}
+          />
         </div>
         <div className={styles["restaurant-card"]}>
-          <RestaurantCard restaurant={currentRestaurant} />
+          <RestaurantCard
+            restaurant={currentRestaurant}
+            startAnimate={startAnimate}
+            stopAnimate={stopAnimate}
+            animRef={animationContainerRef}
+          />
         </div>
       </div>
     </div>
