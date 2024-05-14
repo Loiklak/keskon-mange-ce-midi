@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "prettier": "^3.0.3",
-    "prisma": "^5.4.2"
+    "prisma": "^5.4.2",
+    "vercel": "^34.1.8"
   }
 }

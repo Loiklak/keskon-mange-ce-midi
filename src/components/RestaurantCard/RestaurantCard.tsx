@@ -5,9 +5,10 @@ import { getRandomEmoji } from "@/helpers/getRandomEmojis";
 import { useShakeAnimation } from "./useShakeAnimation";
 import { Badge } from "../ui/badge";
 import { ArrowRight } from "lucide-react";
+import { RestaurantInfos } from "@/core/restaurants/interface";
 
 interface Props {
-  restaurant?: Restaurant;
+  restaurant?: RestaurantInfos;
   getNewRestaurant: () => void;
 }
 
