@@ -1,5 +1,4 @@
 "use client";
-import { Restaurant } from "@prisma/client";
 import { FC, useEffect, useState } from "react";
 import { RestaurantType } from "@/core/restaurants/restaurantType";
 import { RestaurantInfos } from "@/core/restaurants/interface";
@@ -15,8 +14,8 @@ import { useShakeAnimation } from "./useShakeAnimation";
 import { on } from "events";
 
 interface Props {
-  onPickRestaurant: (restaurant: Restaurant | undefined) => void;
-  currentRestaurantPicked: Restaurant | undefined;
+  onPickRestaurant: (restaurant: RestaurantInfos | undefined) => void;
+  currentRestaurantPicked: RestaurantInfos | undefined;
 }
 
 const restaurantTypeOptions: Option<RestaurantType>[] = [
@@ -67,8 +66,8 @@ const RestaurantChoiceCard: FC<Props> = ({
 
   const pickRandomRestaurant = () => {
     onPickRestaurant(undefined);
-    getRandomRestaurant(restaurantType, diet, isRatModeActivated).then(
-      (restaurant) => {
+    getRandomRestaurantSheets(restaurantType, diet, isRatModeActivated).then(
+      (restaurant: RestaurantInfos | undefined) => {
         onPickRestaurant(restaurant);
       }
     );

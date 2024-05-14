@@ -1,14 +1,14 @@
 "use client";
-import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
 import RestaurantChoiceCard from "@/components/RestaurantChoiceCard/RestaurantChoiceCard";
+import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
 import styles from "./page.module.css";
-import { Restaurant } from "@prisma/client";
+import { RestaurantInfos } from "@/core/restaurants/interface";
 import { useShakeAnimation } from "@/components/RestaurantChoiceCard/useShakeAnimation";
 import { useState } from "react";
 
 export default function Home() {
   const [currentRestaurant, setCurrentRestaurant] = useState<
-    Restaurant | undefined
+    RestaurantInfos | undefined
   >();
 
   const { animationContainerRef, startAnimate, stopAnimate } =

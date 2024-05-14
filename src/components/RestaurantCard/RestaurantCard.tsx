@@ -1,12 +1,12 @@
 import { FC, useEffect } from "react";
-import { Restaurant } from "@prisma/client";
+import { RestaurantInfos } from "@/core/restaurants/interface";
 import { Badge } from "../ui/badge";
 import styles from "./RestaurantCard.module.css";
 
 type Props = {
-  restaurant?: Restaurant | undefined;
-  startAnimate: () => void;
-  stopAnimate: () => void;
+  restaurant?: RestaurantInfos | undefined;
+  startAnimate: any;
+  stopAnimate: any;
   animRef: any;
 };
 
