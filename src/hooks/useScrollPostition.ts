@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 
 function useScrollPosition() {
-  const [scrollY, setScrollY] = useState(0);
+  const [scroll, setScroll] = useState({
+    x: 0,
+    y: 0,
+  });
 
   useEffect(() => {
     const handleScroll = () => {
       // Update scrollY state with the current scroll position
-      setScrollY(window.scrollY);
+      setScroll({ x: window.scrollX, y: window.scrollY });
     };
 
     // Add event listener to the scroll event
@@ -18,7 +21,7 @@ function useScrollPosition() {
     };
   }, []); // Empty dependency array ensures that this effect runs only once
 
-  return scrollY;
+  return scroll;
 }
 
 export default useScrollPosition;

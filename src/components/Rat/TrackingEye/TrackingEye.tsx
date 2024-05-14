@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 
 const TrackingEye = () => {
   const mousePosition = useMousePosition();
-  const scrollPositionY = useScrollPosition();
+  const scrollPosition = useScrollPosition();
 
   const boxRef = useRef<HTMLDivElement | null>(null);
 
@@ -18,8 +18,6 @@ const TrackingEye = () => {
     var element: null | HTMLElement | Element = boxRef.current;
     var x = 0;
     var y = 0;
-    console.log("scrollX : %d", window.scrollX);
-    console.log("scrollY : %d", window.scrollY);
     while (element) {
       if (element instanceof HTMLElement) {
         x += element.offsetLeft;
@@ -42,14 +40,16 @@ const TrackingEye = () => {
 
   useEffect(() => {
     if (mousePosition.x && xEye) {
-      setXTranslation((100 * (mousePosition.x - xEye)) / window.innerWidth);
+      setXTranslation(
+        (100 * (mousePosition.x + scrollPosition.x - xEye)) / window.innerWidth
+      );
     }
     if (mousePosition.y && yEye) {
       setYTranslation(
-        (100 * (mousePosition.y + scrollPositionY - yEye)) / innerHeight
+        (100 * (mousePosition.y + scrollPosition.y - yEye)) / innerHeight
       );
     }
-  }, [mousePosition, xEye, yEye, scrollPositionY]);
+  }, [mousePosition, xEye, yEye, scrollPosition]);
 
   return (
     <div>
