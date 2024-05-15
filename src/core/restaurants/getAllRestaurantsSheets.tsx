@@ -39,13 +39,13 @@ const RESTAURANTS_SHEET_ID = process.env.RESTAURANTS_SHEET_ID;
 const SHEET_VALUE_RANGE = process.env.SHEET_VALUE_RANGE;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
-const googleSheetsDtoToRestaurantInfos = (
+const googleSheetsDtoToRestaurantInfos = async (
   googleSheetsContent: string[][]
-): RestaurantInfos[] => {
+): Promise<RestaurantInfos[]> => {
   const header: string[] = googleSheetsContent[0];
   const content = googleSheetsContent.slice(1);
   if (isCorrectHeader(header)) {
-    const jsonData = content.map((row) => {
+    const jsonData = content.map(async (row) => {
       const restaurant: RestaurantInfos = {
         name: "Name unknown",
         canEatIn: false,
@@ -56,23 +56,25 @@ const googleSheetsDtoToRestaurantInfos = (
         lessThanTenEuros: true,
         restaurantPosition: [48, 2],
       };
-      header.forEach((col, index) => {
+
+      for (let index = 0; index < header.length; index++) {
+        const col = header[index];
         const key = SHEETS_COLUMNS_TO_TECHNICAL_NAME[col];
+
         if (isBooleanFromGoogleSheetsCell(key)) {
           restaurant[key] = processBooleanFromGoogleSheetsCell(row[index]);
         } else if (key === "mapUrl") {
-          restaurant.restaurantPosition = processPositionFromGoogleMapsURL(
-            row[index]
-          );
+          restaurant.restaurantPosition =
+            await processPositionFromGoogleMapsURL(row[index]);
           restaurant[key] = row[index];
         } else {
           restaurant[key] = row[index];
         }
-      });
-
+      }
       return restaurant;
     });
-    return jsonData;
+    const resolvedData = await Promise.all(jsonData);
+    return resolvedData;
   } else {
     throw new Error(`Header: ${header} is not in the correct format`);
   }
@@ -93,13 +95,32 @@ const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
     throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
   }
 };
-const processPositionFromGoogleMapsURL = (
+
+const getFinalRedirectUrl = async (inputUrl: string) => {
+  try {
+    const response = await fetch(inputUrl, {
+      method: "HEAD",
+      redirect: "follow",
+    });
+    return response.url;
+  } catch (error) {
+    console.error(`Error getting final URL: ${error}`);
+    return null;
+  }
+};
+
+const processPositionFromGoogleMapsURL = async (
   url: string | null
-): [number, number] | undefined => {
+): Promise<[number, number] | undefined> => {
   if (!url) {
     return;
   }
-  const urlSplit = url.split("/");
+  const finalUrl = await getFinalRedirectUrl(url);
+  if (!finalUrl) {
+    return;
+  }
+
+  const urlSplit = finalUrl.split("/");
   if (urlSplit.length < 7) {
     return;
   }
