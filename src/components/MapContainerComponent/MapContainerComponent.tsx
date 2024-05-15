@@ -1,7 +1,7 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { latLngBounds } from "leaflet";
+import { latLngBounds, Icon } from "leaflet";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css"; // Re-uses images from ~leaflet package
 import "leaflet-defaulticon-compatibility";
 import { positionTheodo } from "@/lib/utils";
@@ -10,6 +10,13 @@ interface Props {
   name: string;
   positionRestaurant: [number, number] | undefined;
 }
+
+const theodoIcon = new Icon({
+  iconUrl:
+    "https://upload.wikimedia.org/wikipedia/fr/thumb/d/dd/Logo-theodo.png/1200px-Logo-theodo.png",
+  iconSize: [50, 50],
+  popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+});
 
 const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
   if (!positionRestaurant) {
@@ -28,9 +35,7 @@ const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={positionTheodo}>
-        <Popup>Theodo</Popup>
-      </Marker>
+      <Marker position={positionTheodo} icon={theodoIcon} />
       <Marker position={positionRestaurant}>
         <Popup>{name}</Popup>
       </Marker>
