@@ -22,7 +22,7 @@ const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
     <MapContainer
       scrollWheelZoom={false}
       bounds={bounds}
-      style={{ height: "100%", width: "100%", borderRadius: "10%" }}
+      style={{ height: "100%", width: "100%", borderRadius: "20px" }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

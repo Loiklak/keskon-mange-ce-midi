@@ -1,13 +1,13 @@
 import { RestaurantInfos } from "@/core/restaurants/interface";
 import MapContainerComponent from "../MapContainerComponent/MapContainerComponent";
-import styles from "./RestaurantInfosCard.module.css";
+import styles from "./MapInfosComponent.module.css";
 import { calculateDistance, positionTheodo, walkingSpeed } from "@/lib/utils";
 
 interface Props {
   restaurant?: RestaurantInfos;
 }
 
-export const RestaurantInfosCard = ({ restaurant }: Props) => {
+export const MapInfosComponent = ({ restaurant }: Props) => {
   if (!restaurant) {
     return null;
   }
@@ -23,7 +23,7 @@ export const RestaurantInfosCard = ({ restaurant }: Props) => {
   return (
     <div>
       <p>
-        {`${restaurant.name} : ${Math.round(timeRestaurantTheodo)} min (${Math.round(distanceRestaurantTheodoM)} m)`}
+        {`${Math.round(timeRestaurantTheodo)} min (${Math.round(distanceRestaurantTheodoM)} m)`}
       </p>
       <div className={styles.mapZone}>
         <MapContainerComponent
