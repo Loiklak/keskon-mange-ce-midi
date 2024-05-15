@@ -1,5 +1,6 @@
 export interface RestaurantInfos {
   name: string;
+  description: string;
   canEatIn: boolean;
   canTakeAway: boolean;
   vegetarianFriendly: boolean;

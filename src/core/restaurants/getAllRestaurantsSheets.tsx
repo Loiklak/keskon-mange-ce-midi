@@ -48,6 +48,7 @@ const googleSheetsDtoToRestaurantInfos = async (
     const jsonData = content.map(async (row) => {
       const restaurant: RestaurantInfos = {
         name: "Name unknown",
+        description: "",
         canEatIn: false,
         canTakeAway: false,
         vegetarianFriendly: false,
@@ -154,6 +155,7 @@ type GoogleSheetsExpectedColumnNames =
 
 const SHEETS_COLUMNS_TO_TECHNICAL_NAME = {
   Restaurant: "name",
+  Description: "description",
   "Sur place": "canEatIn",
   "A emporter": "canTakeAway",
   Vege: "vegetarianFriendly",
