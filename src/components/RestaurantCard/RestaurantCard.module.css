@@ -9,6 +9,9 @@
 .restaurant-name {
   @apply text-3xl lg:text-3xl text-center font-black drop-shadow-lg;
 }
+.restaurant-description {
+  @apply text-sm text-center font-normal drop-shadow-lg italic;
+}
 .possibilities {
   @apply grid grid-rows-1 grid-flow-col mt-1 justify-around;
 }

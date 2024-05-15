@@ -30,6 +30,9 @@ const RestaurantCard: FC<Props> = ({
     <div className={styles["restaurant-card"]} ref={animRef}>
       <div className={styles["inner-card"]}>
         <h1 className={styles["restaurant-name"]}>{restaurant?.name}</h1>
+        <h2 className={styles["restaurant-description"]}>
+          {restaurant?.description}
+        </h2>
       </div>
       <div className={styles.possibilities}>
         <div className={styles["possibilities-content"]}>
