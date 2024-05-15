@@ -3,6 +3,7 @@
     "*.css": "postcss"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.trimTrailingWhitespaceInRegexAndStrings": true,
   "editor.formatOnSave": true,
-  "files.trimTrailingWhitespaceInRegexAndStrings": true
+  "editor.formatOnPaste": true
 }

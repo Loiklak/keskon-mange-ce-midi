@@ -1,0 +1,23 @@
+/* RestaurantCard.module.css */
+
+.restaurant-card {
+  @apply bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 text-center max-w-screen-lg;
+}
+.inner-card {
+  @apply p-5 bg-gray-50 rounded-xl mb-1;
+}
+.restaurant-name {
+  @apply text-3xl lg:text-3xl text-center font-black drop-shadow-lg;
+}
+.possibilities {
+  @apply grid grid-rows-1 grid-flow-col mt-1 justify-around;
+}
+.possibilities-content {
+  @apply row-span-2 col-span-2;
+}
+.badge-container {
+  @apply row-end-2 col-span-2 box-border p-4 border-4 rounded-xl mr-1 mt-3 justify-end;
+}
+.map-container {
+  @apply row-end-2 col-span-1 box-border p-4 border-4 rounded-xl ml-1 justify-end;
+}

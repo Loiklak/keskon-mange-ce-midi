@@ -1,26 +1,21 @@
-"use client";
-import { Restaurant } from "@prisma/client";
-import { FC, useEffect, useState } from "react";
-import { getRandomEmoji } from "@/helpers/getRandomEmojis";
-import { useShakeAnimation } from "./useShakeAnimation";
-import { Badge } from "../ui/badge";
-import { ArrowRight } from "lucide-react";
+import { FC, useEffect } from "react";
 import { RestaurantInfos } from "@/core/restaurants/interface";
+import { Badge } from "../ui/badge";
+import styles from "./RestaurantCard.module.css";
 
-interface Props {
-  restaurant?: RestaurantInfos;
-  getNewRestaurant: () => void;
-}
+type Props = {
+  restaurant?: RestaurantInfos | undefined;
+  startAnimate: any;
+  stopAnimate: any;
+  animRef: any;
+};
 
-const RestaurantCard: FC<Props> = ({ restaurant, getNewRestaurant }) => {
-  const [currentEmoji, setCurrentEmoji] = useState<string>("✨");
-  const { animationContainerRef, startAnimate, stopAnimate } =
-    useShakeAnimation<HTMLButtonElement>();
-
-  useEffect(() => {
-    setCurrentEmoji(getRandomEmoji());
-  }, [restaurant]);
-
+const RestaurantCard: FC<Props> = ({
+  restaurant,
+  startAnimate,
+  stopAnimate,
+  animRef,
+}) => {
   useEffect(() => {
     if (restaurant === undefined) {
       startAnimate();
@@ -30,38 +25,25 @@ const RestaurantCard: FC<Props> = ({ restaurant, getNewRestaurant }) => {
   }, [restaurant]);
 
   return (
-    <div className="flex gap-8">
-      <button
-        className="bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 items-center h-52 w-52 lg:h-80 lg:w-80 lg:gap-6 lg:p-6 m-6"
-        ref={animationContainerRef}
-        onClick={getNewRestaurant}
-      >
-        <p className="text-6xl lg:text-8xl">
-          {restaurant ? currentEmoji : "✨"}
-        </p>
-        <h2 className="text-2xl lg:text-5xl">
-          {restaurant ? restaurant.name : "Je réfléchis..."}
-        </h2>
-
-        <div className="flex gap-1 flex-wrap justify-center">
-          {restaurant?.canEatIn && <Badge variant={"outline"}>Sur place</Badge>}
-          {restaurant?.canTakeAway && (
-            <Badge variant={"outline"}>À emporter</Badge>
-          )}
+    <div className={styles["restaurant-card"]} ref={animRef}>
+      <div className={styles["inner-card"]}>
+        <h1 className={styles["restaurant-name"]}>{restaurant?.name}</h1>
+      </div>
+      <div className={styles.possibilities}>
+        <div className={styles["possibilities-content"]}>
+          <p>Possibilités :</p>
+          {restaurant?.canTakeAway ? <Badge>À emporter</Badge> : ""}
+          {restaurant?.canEatIn ? <Badge>Sur place</Badge> : ""}
+          {restaurant?.vegetarianFriendly ? <Badge>Végé</Badge> : ""}
+          {restaurant?.meatLover ? <Badge>Viandard</Badge> : ""}
+          {restaurant?.lessThanTenEuros ? <Badge>Ratus</Badge> : ""}
+          <div className={styles["badge-container"]}>
+            <h1> Ceci est le cadre qui accueillera les futurs avis ! WIP ! </h1>
+          </div>
         </div>
-      </button>
-
-      <div className="flex flex-col justify-center">
-        {restaurant?.mapUrl && (
-          <a
-            className="flex gap-2 lg:text-xl"
-            href={restaurant?.mapUrl}
-            target="_blank"
-          >
-            <span className="whitespace-nowrap">Go</span>
-            <ArrowRight />
-          </a>
-        )}
+        <div className={styles["map-container"]}>
+          Il y aura bientot une jolie map ici 🤪
+        </div>
       </div>
     </div>
   );
