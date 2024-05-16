@@ -40,5 +40,7 @@ const theodoIcon = new Icon({
 
 const restaurantIcon = new Icon({
   iconUrl: "./restaurant_pin_map.png",
+  shadowUrl: "./restaurant_pin_map_shadow.png",
   iconSize: [40, 40],
+  shadowSize: [40, 40],
 });
