@@ -1,8 +1,18 @@
 import { RestaurantInfos } from "@/core/restaurants/interface";
-import MapContainerComponent from "../MapContainerComponent/MapContainerComponent";
 import styles from "./MapInfosComponent.module.css";
 import { calculateDistance, positionTheodo, walkingSpeed } from "@/lib/utils";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const MapContainerComponent = dynamic(
+  () => import("../MapContainerComponent/MapContainerComponent"),
+  {
+    ssr: false,
+    loading: () => (
+      <div style={{ textAlign: "center", paddingTop: 20 }}>Chargement…</div>
+    ),
+  }
+);
 
 interface Props {
   restaurant?: RestaurantInfos;
@@ -18,7 +28,7 @@ export const MapInfosComponent = ({ restaurant }: Props) => {
         <p>{`Oups, il nous manque des infos sur ce resto`}</p>
         <p>{`----------`}</p>
         <p>
-          {`Vous pouvez améliorer ce site en complétant les infos du resto (URL Google Maps) sur le lien ci-dessous`}
+          {`Vous pouvez améliorer ce site en complétant les infos du resto (URL Google Maps valide) sur le lien ci-dessous`}
         </p>
         <p>{`👇👇👇👇👇👇`}</p>
         <a
