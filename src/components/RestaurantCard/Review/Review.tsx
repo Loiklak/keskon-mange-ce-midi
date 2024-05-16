@@ -85,11 +85,7 @@ export const ReviewItem = ({ restaurantName }: RestaurantNameProps) => {
     timerRef.current = setTimeout(() => handleEvent(Direction.NEXT), WAIT_TIME);
   };
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-  var dictCom = {
-    0: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.",
-    1: "Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi.",
-    2: "Duis semper.",
-  };
+
   const displayOneReviewComment = (review: ReviewInfos) => {
     return (
       <div className={styles.review} id="slider">
@@ -112,11 +108,9 @@ export const ReviewItem = ({ restaurantName }: RestaurantNameProps) => {
             </p>
           </div>
           <div>
-            {review.author ? (
-              <p className={styles.author}>-{review.author}</p>
-            ) : (
-              ""
-            )}
+            <p className={styles.author}>
+              -{review.author ? review.author : "Anonyme"}
+            </p>
           </div>
         </div>
       </div>
