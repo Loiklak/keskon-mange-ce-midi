@@ -18,6 +18,11 @@ const theodoIcon = new Icon({
   shadowSize: [55, 55],
 });
 
+const restaurantIcon = new Icon({
+  iconUrl: "./restaurant_pin_map.png",
+  iconSize: [40, 40],
+});
+
 const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
   if (!positionRestaurant) {
     return null;
@@ -36,7 +41,7 @@ const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Marker position={positionTheodo} icon={theodoIcon} />
-      <Marker position={positionRestaurant}>
+      <Marker position={positionRestaurant} icon={restaurantIcon}>
         <Popup>{name}</Popup>
       </Marker>
     </MapContainer>
