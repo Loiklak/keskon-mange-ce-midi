@@ -12,10 +12,10 @@ interface Props {
 }
 
 const theodoIcon = new Icon({
-  iconUrl:
-    "https://upload.wikimedia.org/wikipedia/fr/thumb/d/dd/Logo-theodo.png/1200px-Logo-theodo.png",
-  iconSize: [50, 50],
-  popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
+  iconUrl: "./MarkerTheodo.png",
+  shadowUrl: "./MarkerTheodoShadow.png",
+  iconSize: [40, 40],
+  shadowSize: [55, 55],
 });
 
 const MapContainerComponent = ({ name, positionRestaurant }: Props) => {
