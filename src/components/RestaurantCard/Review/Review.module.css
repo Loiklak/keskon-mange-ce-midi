@@ -1,0 +1,36 @@
+.review {
+  width: 100%;
+  height: 130px;
+  padding: 0px;
+  text-align: center;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.evaluation {
+  font-size: 25px;
+}
+
+.comment {
+  font-size: 14px;
+  border-width: 5px;
+  height: 50%;
+  overflow-y: scroll;
+  background-color: rgb(250, 250, 250);
+  border-radius: 20px;
+  vertical-align: middle;
+}
+
+.reviewContainer {
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+  overflow: hidden;
+  width: 90%;
+}
+
+.reviewAndButtonContainer {
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+}

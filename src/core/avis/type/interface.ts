@@ -14,7 +14,7 @@ export function isReviewInfosKey(key: string): key is keyof ReviewInfos {
   return key === "name" || key === "comment" || key === "evaluation";
 }
 
-export const ConvertSheetCellToEvaluation = (
+export const convertSheetCellToEvaluation = (
   CellContent: string
 ): Evaluation | undefined => {
   switch (CellContent) {
@@ -26,5 +26,20 @@ export const ConvertSheetCellToEvaluation = (
       return Evaluation.GOOD_EVALUATION;
     default:
       return undefined;
+  }
+};
+
+export const convertEvaluationToStringToDisplay = (
+  evaluation: Evaluation | undefined
+): string => {
+  switch (evaluation) {
+    case Evaluation.BAD_EVALUATION:
+      return "⭐☆☆";
+    case Evaluation.MEDIUM_EVALUATION:
+      return "⭐⭐☆";
+    case Evaluation.GOOD_EVALUATION:
+      return "⭐⭐⭐";
+    default:
+      return "";
   }
 };
