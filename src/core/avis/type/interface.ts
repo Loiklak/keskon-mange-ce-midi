@@ -2,6 +2,7 @@ export interface ReviewInfos {
   name: string;
   comment: string;
   evaluation: Evaluation | undefined;
+  author: string;
 }
 
 export enum Evaluation {
@@ -11,7 +12,12 @@ export enum Evaluation {
 }
 
 export function isReviewInfosKey(key: string): key is keyof ReviewInfos {
-  return key === "name" || key === "comment" || key === "evaluation";
+  return (
+    key === "name" ||
+    key === "comment" ||
+    key === "evaluation" ||
+    key == "author"
+  );
 }
 
 export const convertSheetCellToEvaluation = (

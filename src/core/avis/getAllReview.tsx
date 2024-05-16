@@ -12,9 +12,8 @@ import {
 } from "./type/typeGuardEvaluation";
 import { reviewStringKeys, ReviewStringKeys } from "./type/typeGuardString";
 import { generateAPIURL } from "../sheetMethods";
-import { error } from "console";
 
-const REVIEW_VALUE_RANGE = "Avis!A:C";
+const REVIEW_VALUE_RANGE = "Avis!A:D";
 const DOCUMENT_ID = process.env.RESTAURANTS_SHEET_ID;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
@@ -22,6 +21,7 @@ const sheetsColumnsToTechnicalName = {
   Restaurant: "name",
   Avis: "comment",
   Note: "evaluation",
+  Theodoer: "author",
 } as const;
 
 type GoogleSheetsExpectedColumnNames =
@@ -51,6 +51,7 @@ const arrayToReviewInfos = (data: string[][]): ReviewInfos[] => {
         name: "Name unknown",
         comment: "",
         evaluation: Evaluation.MEDIUM_EVALUATION,
+        author: "Anonyme",
       };
       header.forEach((col, index) => {
         const key = sheetsColumnsToTechnicalName[col];

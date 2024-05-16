@@ -99,15 +99,48 @@ export const ReviewItem = ({ restaurantName }: RestaurantNameProps) => {
         <div className={styles.comment}>
           <p>❝ {review.comment} ❞</p>
         </div>
+        <div className={styles.containerCommentAndAuthor}>
+          <div>
+            <p className={styles.addComment}>
+              <a
+                href="https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=915087104"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ajouter un commentaire !
+              </a>
+            </p>
+          </div>
+          <div>
+            {review.author ? (
+              <p className={styles.author}>-{review.author}</p>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
       </div>
     );
   };
+  const displayNoReview = () => {
+    return (
+      <div className={styles.review} id="slider">
+        <a
+          href="https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=915087104"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Deviens la première personne à ajouter un commentaire !
+        </a>
+      </div>
+    );
+  };
+
   const mod = (numberToDivide: number, divisor: number): number => {
     return ((numberToDivide % divisor) + divisor) % divisor;
   };
 
   const displayCurrentCommentAndSide = (reviewArray: ReviewInfos[]) => {
-    console.log(reviewArray);
     if (reviewArray?.length > 0) {
       return (
         <div className={styles.reviewContainer}>
@@ -125,24 +158,9 @@ export const ReviewItem = ({ restaurantName }: RestaurantNameProps) => {
     } else {
       return (
         <div className={styles.reviewContainer}>
-          <div className={styles.review} id="slider">
-            Deviens la première personne à ajouter un commentaire ! <br />
-            com n°{mod(myVariable + 1, 3)}
-            <br />
-            {dictCom[mod(myVariable + 1, 3)]}
-          </div>
-          <div className={styles.review} id="slider">
-            Deviens la première personne à ajouter un commentaire !<br />
-            com n°{mod(myVariable, 3)}
-            <br />
-            {dictCom[mod(myVariable, 3)]}
-          </div>
-          <div className={styles.review} id="slider">
-            Deviens la première personne à ajouter un commentaire !<br />
-            com n°{mod(myVariable - 1, 3)}
-            <br />
-            {dictCom[mod(myVariable - 1, 3)]}
-          </div>
+          {displayNoReview()}
+          {displayNoReview()}
+          {displayNoReview()}
         </div>
       );
     }
