@@ -54,7 +54,6 @@ export const MapInfosComponent = ({ restaurant }: Props) => {
       </p>
       <div className={styles.mapZone}>
         <MapContainerComponent
-          name={restaurant.name}
           positionRestaurant={restaurant.restaurantPosition}
         ></MapContainerComponent>
       </div>
