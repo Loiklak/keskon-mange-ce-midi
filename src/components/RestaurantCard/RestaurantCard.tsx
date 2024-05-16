@@ -2,9 +2,10 @@ import { FC, useEffect } from "react";
 import { RestaurantInfos } from "@/core/restaurants/interface";
 import { Badge } from "../ui/badge";
 import styles from "./RestaurantCard.module.css";
+import { X } from "lucide-react";
 
 type Props = {
-  restaurant?: RestaurantInfos | undefined;
+  restaurant: RestaurantInfos | undefined;
   startAnimate: any;
   stopAnimate: any;
   animRef: any;
