@@ -1,6 +1,12 @@
 .mapZone {
+  width: 70vw;
   height: 200px;
-  width: 300px;
+}
+
+@media (min-width: 429px) {
+  .mapZone {
+    width: 300px;
+  }
 }
 
 .lien {

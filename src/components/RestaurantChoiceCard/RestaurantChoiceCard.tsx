@@ -81,7 +81,7 @@ const RestaurantChoiceCard: FC<Props> = ({
   }, []);
 
   return (
-    <div className="bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 text-center max-w-screen-md">
+    <div className="bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 text-center lg: max-w-screen-md">
       <div className="flex flex-col items-center gap-4">
         <SingleOptionPicker
           items={restaurantTypeOptions}
@@ -89,7 +89,6 @@ const RestaurantChoiceCard: FC<Props> = ({
           onChange={(v) => setRestaurantType(v)}
           label="Type de restaurant"
         />
-
         <SingleOptionPicker
           items={dietOptions}
           value={diet}

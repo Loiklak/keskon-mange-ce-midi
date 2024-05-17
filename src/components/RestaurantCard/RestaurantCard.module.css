@@ -13,10 +13,10 @@
   @apply text-sm text-center font-normal drop-shadow-lg italic;
 }
 .possibilities {
-  @apply grid grid-rows-1 grid-flow-col mt-1 justify-around;
+  @apply flex flex-wrap mt-1 justify-around;
 }
 .possibilities-content {
-  @apply row-span-2 col-span-2;
+  @apply flex flex-wrap justify-center gap-1;
 }
 .badge-container {
   @apply row-end-2 col-span-2 box-border p-4 border-4 rounded-xl mr-1 mt-3 justify-end;

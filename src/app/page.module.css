@@ -1,13 +1,13 @@
 /* page.module.css */
 
 .container {
-  @apply flex flex-col items-center gap-6 lg:gap-8 p-10 lg:p-10;
+  @apply flex flex-col items-center lg:gap-8 p-10 lg:p-10;
 }
 .header {
   @apply text-3xl lg:text-8xl text-center font-black drop-shadow-lg;
 }
 .content {
-  @apply flex lg:flex-row flex-col w-screen gap-3 lg:gap-3 p-10 lg:p-10 lg:items-stretch justify-center;
+  @apply flex lg:flex-row flex-col items-center	w-screen gap-3 lg:gap-3 p-10 lg:p-10 lg:items-stretch justify-center;
 }
 .choice-card {
   @apply ml-1 flex lg:self-auto lg:flex-row justify-center;

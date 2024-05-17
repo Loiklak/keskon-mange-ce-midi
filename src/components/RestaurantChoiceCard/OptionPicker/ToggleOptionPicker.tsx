@@ -17,7 +17,7 @@ export function ToggleOptionPicker<TOptionValue extends string>({
 }: Props<TOptionValue>) {
   return (
     <form className="flex flex-col gap-2 items-center text-xl">
-      <label className="flex flex-col items-center cursor-pointer">
+      <label className="flex lg:flex-col gap-4 lg:gap-0 flex-row items-center cursor-pointer">
         {label}
         <input
           type="checkbox"

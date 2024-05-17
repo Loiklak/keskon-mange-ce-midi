@@ -36,13 +36,14 @@ const RestaurantCard: FC<Props> = ({
         </h2>
       </div>
       <div className={styles.possibilities}>
-        <div className={styles["possibilities-content"]}>
-          <p>Possibilités :</p>
-          {restaurant?.canTakeAway ? <Badge>À emporter</Badge> : ""}
-          {restaurant?.canEatIn ? <Badge>Sur place</Badge> : ""}
-          {restaurant?.vegetarianFriendly ? <Badge>Végé</Badge> : ""}
-          {restaurant?.meatLover ? <Badge>Viandard</Badge> : ""}
-          {restaurant?.lessThanTenEuros ? <Badge>Ratus</Badge> : ""}
+        <div>
+          <div className={styles["possibilities-content"]}>
+            {restaurant?.canTakeAway ? <Badge>À emporter</Badge> : ""}
+            {restaurant?.canEatIn ? <Badge>Sur place</Badge> : ""}
+            {restaurant?.vegetarianFriendly ? <Badge>Végé</Badge> : ""}
+            {restaurant?.meatLover ? <Badge>Viandard</Badge> : ""}
+            {restaurant?.lessThanTenEuros ? <Badge>Ratus</Badge> : ""}
+          </div>
           <div className={styles["badge-container"]}>
             {restaurant?.name &&
               <ReviewCarousel restaurantName={restaurant?.name} />

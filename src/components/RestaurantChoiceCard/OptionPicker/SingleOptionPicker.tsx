@@ -23,7 +23,7 @@ export function SingleOptionPicker<TOptionValue extends string>({
 }: Props<TOptionValue>) {
   return (
     <form className="flex flex-col gap-2 items-center text-xl">
-      <label className="text-base lg:text-xl">{label} :</label>
+      <label className="text-base hidden lg:block lg:text-xl">{label} :</label>
       <RadioGroup
         defaultValue={defaultValue ?? items[0].value}
         className="grid grid-cols-3 gap-4"
