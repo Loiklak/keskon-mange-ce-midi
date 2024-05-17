@@ -72,6 +72,23 @@ const googleSheetsDtoToRestaurantInfos = (
   }
 };
 
+function isBooleanFromGoogleSheetsCell(
+  key: string
+): key is RestaurantBooleanKeys {
+  return restaurantBooleanKeys.includes(key);
+}
+
+const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
+  if (value === "TRUE") {
+    return true;
+  } else if (value === "FALSE") {
+    return false;
+  } else {
+    throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
+  }
+};
+
+
 function isCorrectHeader(
   header: string[]
 ): header is GoogleSheetsExpectedColumnNames[] {
@@ -91,19 +108,3 @@ const SHEETS_COLUMNS_TO_TECHNICAL_NAME = {
   "URL maps": "mapUrl",
   "Moins de 10€": "lessThanTenEuros",
 } as const;
-
-function isBooleanFromGoogleSheetsCell(
-  key: string
-): key is RestaurantBooleanKeys {
-  return restaurantBooleanKeys.includes(key);
-}
-
-const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
-  if (value === "TRUE") {
-    return true;
-  } else if (value === "FALSE") {
-    return false;
-  } else {
-    throw new Error(`${value} value is not in "TRUE" or "FALSE" format`);
-  }
-};
