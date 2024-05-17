@@ -1,15 +1,18 @@
-"use server";
 import { RestaurantType } from "./restaurantType";
 import { Diet } from "./diet";
 import { getAllRestaurantsSheets } from "./getAllRestaurantsSheets";
 import { RestaurantInfos } from "./interface";
+import { getDataFromCacheOrSheet } from "../sheetMethods";
 
 export const getRandomRestaurantSheets = async (
   restaurantType: RestaurantType,
   diet: Diet,
   ratMode: boolean | undefined
 ): Promise<RestaurantInfos> => {
-  const restaurants = await getAllRestaurantsSheets();
+  const restaurants = await getDataFromCacheOrSheet(
+    "cachedRestaurantInfo ",
+    getAllRestaurantsSheets
+  );
 
   const userChoiceFilter: Record<CorrectUserChoiceFilterKey, boolean> = {
     eatInMandatory: restaurantType === RestaurantType.EAT_IN,
