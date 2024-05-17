@@ -54,11 +54,17 @@ const googleSheetsDtoToRestaurantInfos = (
         meatLover: false,
         mapUrl: "https://www.google.com/maps",
         lessThanTenEuros: true,
+        restaurantPosition: [48, 2],
       };
       header.forEach((col, index) => {
         const key = SHEETS_COLUMNS_TO_TECHNICAL_NAME[col];
         if (isBooleanFromGoogleSheetsCell(key)) {
           restaurant[key] = processBooleanFromGoogleSheetsCell(row[index]);
+        } else if (key === "mapUrl") {
+          restaurant.restaurantPosition = processPositionFromGoogleMapsURL(
+            row[index]
+          );
+          restaurant[key] = row[index];
         } else {
           restaurant[key] = row[index];
         }
@@ -88,6 +94,26 @@ const processBooleanFromGoogleSheetsCell = (value: string): boolean => {
   }
 };
 
+const processPositionFromGoogleMapsURL = (
+  url: string | null
+): [number, number] => {
+  if (!url) {
+    return [48, 2]; // A changer default value
+  }
+  const urlSplit = url.split("/");
+  if (urlSplit.length < 6) {
+    return [48, 2]; // A changer default value
+  }
+  const positionString = urlSplit[6].slice(1, -4);
+  const position = positionString
+    .split(",")
+    .map((string) => parseFloat(string));
+  console.log(position);
+  if (position.length !== 2) {
+    return [48, 2]; // A changer default value
+  }
+  return [position[0], position[1]];
+};
 
 function isCorrectHeader(
   header: string[]
