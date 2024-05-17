@@ -2,12 +2,23 @@
 import RestaurantChoiceCard from "@/components/RestaurantChoiceCard/RestaurantChoiceCard";
 import RestaurantCard from "@/components/RestaurantCard/RestaurantCard";
 import Rat from "@/components/Rat/Rat";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import { RestaurantInfos } from "@/core/restaurants/interface";
 import { useShakeAnimation } from "@/components/RestaurantChoiceCard/useShakeAnimation";
 
 export default function Home() {
+  useEffect(() => {
+    const [navigation] = performance.getEntriesByType(
+      "navigation"
+    ) as PerformanceNavigationTiming[];
+    if (navigation) {
+      if (navigation.type === "reload") {
+        localStorage.clear();
+      }
+    }
+  }, []);
+
   const [currentRestaurant, setCurrentRestaurant] = useState<
     RestaurantInfos | undefined
   >();
