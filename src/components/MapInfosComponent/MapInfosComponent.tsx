@@ -4,6 +4,9 @@ import { calculateDistance, positionTheodo, walkingSpeed } from "@/lib/utils";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
+const NEXT_PUBLIC_RESTAURANTS_SHEET_ID =
+  process.env.NEXT_PUBLIC_RESTAURANTS_SHEET_ID;
+
 const MapContainerComponent = dynamic(
   () => import("../MapContainerComponent/MapContainerComponent"),
   {
@@ -32,7 +35,7 @@ export const MapInfosComponent = ({ restaurant }: Props) => {
         </p>
         <p>{`👇👇👇👇👇👇`}</p>
         <a
-          href={`https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=0`} //document id = variable d'environnement
+          href={`https://docs.google.com/spreadsheets/d/${NEXT_PUBLIC_RESTAURANTS_SHEET_ID}/edit#gid=0`} //document id = variable d'environnement
           target="_blank"
           className={styles.lien}
         >

@@ -15,7 +15,7 @@ import { generateAPIURL } from "../sheetMethods";
 import { error } from "console";
 
 const REVIEW_VALUE_RANGE = "Avis!A:C";
-const DOCUMENT_ID = process.env.RESTAURANTS_SHEET_ID;
+const DOCUMENT_ID = process.env.NEXT_PUBLIC_RESTAURANTS_SHEET_ID;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
 const sheetsColumnsToTechnicalName = {

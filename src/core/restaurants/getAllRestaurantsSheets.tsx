@@ -9,18 +9,14 @@ import {
 } from "./interface";
 
 export const getAllRestaurantsSheets = async (): Promise<RestaurantInfos[]> => {
-  if (!RESTAURANTS_SHEET_ID || !SHEET_VALUE_RANGE || !GOOGLE_SHEETS_API_KEY) {
+  if (!DOCUMENT_ID || !SHEET_VALUE_RANGE || !GOOGLE_SHEETS_API_KEY) {
     throw new Error(
-      `documentID: ${RESTAURANTS_SHEET_ID}, valuesRange: ${SHEET_VALUE_RANGE}, googleSheetsAPIKey: ${GOOGLE_SHEETS_API_KEY} must all be defined`
+      `documentID: ${DOCUMENT_ID}, valuesRange: ${SHEET_VALUE_RANGE}, googleSheetsAPIKey: ${GOOGLE_SHEETS_API_KEY} must all be defined`
     );
   }
   const restaurantsTable = await (
     await fetch(
-      generateAPIURL(
-        RESTAURANTS_SHEET_ID,
-        SHEET_VALUE_RANGE,
-        GOOGLE_SHEETS_API_KEY
-      ),
+      generateAPIURL(DOCUMENT_ID, SHEET_VALUE_RANGE, GOOGLE_SHEETS_API_KEY),
       { headers: { accept: "application/json" }, cache: "no-cache" }
     )
   ).json();
@@ -35,7 +31,7 @@ const generateAPIURL = (
   return `https://sheets.googleapis.com/v4/spreadsheets/${documentID}/values/${valuesRange}?key=${googleSheetsAPIKey}`;
 };
 
-const RESTAURANTS_SHEET_ID = process.env.RESTAURANTS_SHEET_ID;
+const DOCUMENT_ID = process.env.NEXT_PUBLIC_RESTAURANTS_SHEET_ID;
 const SHEET_VALUE_RANGE = process.env.SHEET_VALUE_RANGE;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
