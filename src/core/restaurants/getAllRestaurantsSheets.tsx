@@ -55,7 +55,7 @@ const googleSheetsDtoToRestaurantInfos = async (
         meatLover: false,
         mapUrl: "https://www.google.com/maps",
         lessThanTenEuros: true,
-        restaurantPosition: [48, 2],
+        restaurantPosition: undefined,
       };
 
       for (let index = 0; index < header.length; index++) {
@@ -67,7 +67,7 @@ const googleSheetsDtoToRestaurantInfos = async (
         } else if (key === "mapUrl") {
           restaurant.restaurantPosition =
             await processPositionFromGoogleMapsURL(row[index]);
-          restaurant[key] = row[index];
+          restaurant.mapUrl = row[index];
         } else {
           restaurant[key] = row[index];
         }
