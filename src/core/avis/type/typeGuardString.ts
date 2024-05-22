@@ -8,5 +8,6 @@ export type ReviewStringKeys = keyof {
 const objectStringKeys: Record<ReviewStringKeys, undefined> = {
   name: undefined,
   comment: undefined,
+  author: undefined,
 };
 export const reviewStringKeys = Object.keys(objectStringKeys);
