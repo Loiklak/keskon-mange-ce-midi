@@ -5,6 +5,7 @@ import { slideLeftAnimation, slideRightAnimation } from "./keyframe";
 import { ReviewInfos } from "@/core/avis/type/interface";
 import { ReviewComponent } from "./ReviewComponent";
 
+const WAIT_TIME = 1500;
 const TRANSLATION_DURATION = 500;
 
 type RestaurantNameProps = {
@@ -18,9 +19,26 @@ enum Direction {
 }
 export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
   const currentReviewArray: ReviewInfos[] = [];
+  const timerRef = useRef<NodeJS.Timeout>();
+
+  const createTimerChangingCurrentCommentAfterIt = () => {
+    timerRef.current = setTimeout(
+      () => changeCurrentCommentAndAnimateCarousel(Direction.NEXT),
+      WAIT_TIME
+    );
+  };
+
+  useEffect(() => {
+    createTimerChangingCurrentCommentAfterIt();
+  }, []);
+
   const changeCurrentCommentAndAnimateCarousel = (direction: Direction) => {
     const allSliderElem = document.querySelectorAll("[id=slider]");
     updateChangeStepDirectionAndAnimate(direction, allSliderElem);
+    timerRef.current = setTimeout(
+      () => changeCurrentCommentAndAnimateCarousel(Direction.NEXT),
+      WAIT_TIME
+    );
   };
 
   const displayCurrentCommentAndSide = (reviewArray: ReviewInfos[]) => {
