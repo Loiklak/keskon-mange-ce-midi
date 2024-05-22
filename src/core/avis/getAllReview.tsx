@@ -20,7 +20,7 @@ const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
 const sheetsColumnsToTechnicalName = {
   Restaurant: "name",
-  Review: "comment",
+  Avis: "comment",
   Note: "evaluation",
   Theodoer: "author",
 } as const;
