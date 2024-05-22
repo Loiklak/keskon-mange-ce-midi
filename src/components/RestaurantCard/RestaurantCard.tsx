@@ -4,6 +4,7 @@ import { Badge } from "../ui/badge";
 import styles from "./RestaurantCard.module.css";
 import { X } from "lucide-react";
 import { ReviewComponent } from "./Review/ReviewComponent";
+import { Evaluation, ReviewInfos } from "@/core/avis/type/interface";
 import { MapInfosComponent } from "../MapInfosComponent/MapInfosComponent";
 
 type Props = {
@@ -11,6 +12,12 @@ type Props = {
   startAnimate: any;
   stopAnimate: any;
   animRef: any;
+};
+const reviewTestDisplay: ReviewInfos = {
+  name: "Name unknown",
+  comment: "Here should be displayed a comment",
+  evaluation: Evaluation.MEDIUM_EVALUATION,
+  author: "MyLittlePoney",
 };
 
 const RestaurantCard: FC<Props> = ({
@@ -44,7 +51,7 @@ const RestaurantCard: FC<Props> = ({
           {restaurant?.meatLover ? <Badge>Viandard</Badge> : ""}
           {restaurant?.lessThanTenEuros ? <Badge>Ratus</Badge> : ""}
           <div className={styles["badge-container"]}>
-            <ReviewComponent />
+            <ReviewComponent review={reviewTestDisplay} />
           </div>
         </div>
         <div className={styles["map-container"]}>
