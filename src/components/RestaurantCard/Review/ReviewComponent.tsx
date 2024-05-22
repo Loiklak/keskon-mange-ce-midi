@@ -1,5 +1,12 @@
 import styles from "./ReviewComponent.module.css";
 
+interface ReviewComponentProps {
+  review?: ReviewInfos;
+}
+
+export const ReviewComponent: React.FC<ReviewComponentProps> = ({ review }) => {
+  return review ? <div>comment</div> : displayNoReview();
+};
 export const displayNoReview = () => {
   return (
     <div className={styles.review} id="slider">

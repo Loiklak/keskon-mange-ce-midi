@@ -3,6 +3,7 @@ import { RestaurantInfos } from "@/core/restaurants/interface";
 import { Badge } from "../ui/badge";
 import styles from "./RestaurantCard.module.css";
 import { X } from "lucide-react";
+import { ReviewComponent } from "./Review/ReviewComponent";
 import { MapInfosComponent } from "../MapInfosComponent/MapInfosComponent";
 
 type Props = {
@@ -43,7 +44,7 @@ const RestaurantCard: FC<Props> = ({
           {restaurant?.meatLover ? <Badge>Viandard</Badge> : ""}
           {restaurant?.lessThanTenEuros ? <Badge>Ratus</Badge> : ""}
           <div className={styles["badge-container"]}>
-            <h1> Ceci est le cadre qui accueillera les futurs avis ! WIP ! </h1>
+            <ReviewComponent />
           </div>
         </div>
         <div className={styles["map-container"]}>
