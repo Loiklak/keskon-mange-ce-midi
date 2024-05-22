@@ -8,7 +8,10 @@ export const displayNoReview = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
+        <p className={styles.evaluation}>No evaluation</p>
+        <div className={styles.comment}>
         Deviens la première personne à ajouter un commentaire !
+        </div>
       </a>
     </div>
   );
