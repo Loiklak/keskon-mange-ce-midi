@@ -1,0 +1,13 @@
+.reviewContainer {
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+  overflow: hidden;
+  width: 500px;
+}
+
+.reviewAndButtonContainer {
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+}
