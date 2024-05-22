@@ -9,7 +9,7 @@ interface ReviewComponentProps {
 }
 
 export const ReviewComponent: React.FC<ReviewComponentProps> = ({ review }) => {
-  return review ? <div>comment</div> : displayNoReview();
+  return review ? displayOneReviewComment(review) : displayNoReview();
 };
 
 export const displayOneReviewComment = (review: ReviewInfos) => {
@@ -52,7 +52,7 @@ export const displayNoReview = () => {
       >
         <p className={styles.evaluation}>No evaluation</p>
         <div className={styles.comment}>
-        Deviens la première personne à ajouter un commentaire !
+          Deviens la première personne à ajouter un commentaire !
         </div>
       </a>
     </div>
