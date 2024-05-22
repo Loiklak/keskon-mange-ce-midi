@@ -14,7 +14,7 @@ export function isReviewInfosKey(key: string): key is keyof ReviewInfos {
   return key === "name" || key === "comment" || key === "evaluation";
 }
 
-export const ConvertSheetCellToEvaluation = (
+export const convertSheetCellToEvaluation = (
   CellContent: string
 ): Evaluation | undefined => {
   switch (CellContent) {

@@ -2,7 +2,7 @@
 
 import {
   ReviewInfos,
-  ConvertSheetCellToEvaluation,
+  convertSheetCellToEvaluation,
   isReviewInfosKey,
   Evaluation,
 } from "./type/interface";
@@ -57,7 +57,7 @@ const arrayToReviewInfos = (data: string[][]): ReviewInfos[] => {
         const cellContent = row[index];
         if (isReviewInfosKey(key)) {
           if (isEvaluationKey(key)) {
-            review[key] = ConvertSheetCellToEvaluation(cellContent);
+            review[key] = convertSheetCellToEvaluation(cellContent);
             key;
           }
           if (isStringKey(key)) {
