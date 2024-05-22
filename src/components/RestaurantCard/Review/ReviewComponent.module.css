@@ -1,0 +1,8 @@
+.review {
+  width: 100%;
+  height: 130px;
+  padding: 0px;
+  text-align: center;
+  flex-shrink: 0;
+  justify-content: center;
+}
