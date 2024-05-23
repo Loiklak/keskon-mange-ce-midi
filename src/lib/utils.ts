@@ -5,8 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const positionTheodo: [number, number] = [48.882737, 2.322391];
-
 export const calculateDistance = (
   position1: [number, number],
   position2: [number, number]

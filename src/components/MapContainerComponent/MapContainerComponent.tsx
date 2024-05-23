@@ -4,7 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { latLngBounds, Icon } from "leaflet";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
 import "leaflet-defaulticon-compatibility";
-import { positionTheodo } from "@/lib/utils";
+import { positionTheodo } from "@/lib/constants";
 
 interface Props {
   positionRestaurant: [number, number];

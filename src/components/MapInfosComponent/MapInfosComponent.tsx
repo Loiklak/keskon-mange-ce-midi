@@ -1,7 +1,7 @@
 import { RestaurantInfos } from "@/core/restaurants/interface";
 import styles from "./MapInfosComponent.module.css";
-import { calculateDistance, positionTheodo, walkingSpeed } from "@/lib/utils";
-import Link from "next/link";
+import { calculateDistance, walkingSpeed } from "@/lib/utils";
+import { positionTheodo } from "@/lib/constants";
 import dynamic from "next/dynamic";
 
 const NEXT_PUBLIC_RESTAURANTS_SHEET_ID =
@@ -35,7 +35,7 @@ export const MapInfosComponent = ({ restaurant }: Props) => {
         </p>
         <p>{`👇👇👇👇👇👇`}</p>
         <a
-          href={`https://docs.google.com/spreadsheets/d/${NEXT_PUBLIC_RESTAURANTS_SHEET_ID}/edit#gid=0`} //document id = variable d'environnement
+          href={`https://docs.google.com/spreadsheets/d/${NEXT_PUBLIC_RESTAURANTS_SHEET_ID}/edit#gid=0`}
           target="_blank"
           className={styles.lien}
         >
