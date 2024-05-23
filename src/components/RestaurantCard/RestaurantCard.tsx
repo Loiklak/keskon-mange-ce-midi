@@ -3,6 +3,7 @@ import { RestaurantInfos } from "@/core/restaurants/interface";
 import { Badge } from "../ui/badge";
 import styles from "./RestaurantCard.module.css";
 import { X } from "lucide-react";
+import { MapInfosComponent } from "../MapInfosComponent/MapInfosComponent";
 
 type Props = {
   restaurant: RestaurantInfos | undefined;
@@ -29,6 +30,9 @@ const RestaurantCard: FC<Props> = ({
     <div className={styles["restaurant-card"]} ref={animRef}>
       <div className={styles["inner-card"]}>
         <h1 className={styles["restaurant-name"]}>{restaurant?.name}</h1>
+        <h2 className={styles["restaurant-description"]}>
+          {restaurant?.description}
+        </h2>
       </div>
       <div className={styles.possibilities}>
         <div className={styles["possibilities-content"]}>
@@ -43,7 +47,7 @@ const RestaurantCard: FC<Props> = ({
           </div>
         </div>
         <div className={styles["map-container"]}>
-          Il y aura bientot une jolie map ici 🤪
+          <MapInfosComponent restaurant={restaurant} />
         </div>
       </div>
     </div>

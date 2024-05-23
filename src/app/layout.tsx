@@ -12,7 +12,8 @@ export const metadata: Metadata = {
   description: "Mais on mange quoi ce midi putain ?",
 };
 
-const RESTAURANTS_SHEET_ID = process.env.RESTAURANTS_SHEET_ID;
+const NEXT_PUBLIC_RESTAURANTS_SHEET_ID =
+  process.env.NEXT_PUBLIC_RESTAURANTS_SHEET_ID;
 
 export default function RootLayout({
   children,
@@ -33,7 +34,7 @@ export default function RootLayout({
               </li>
               <li>
                 <Link
-                  href={`https://docs.google.com/spreadsheets/d/${RESTAURANTS_SHEET_ID}/edit#gid=0`}
+                  href={`https://docs.google.com/spreadsheets/d/${NEXT_PUBLIC_RESTAURANTS_SHEET_ID}/edit#gid=0`}
                   target="_blank"
                 >
                   Sheets restaus

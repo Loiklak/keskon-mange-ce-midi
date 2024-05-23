@@ -1,0 +1,10 @@
+.mapZone {
+  height: 200px;
+  width: 300px;
+}
+
+.lien {
+  color: #007bff;
+  text-decoration: underline;
+  font-weight: bold;
+}
