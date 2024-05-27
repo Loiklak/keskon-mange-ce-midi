@@ -4,7 +4,12 @@ export const slideRightAnimation = [
   },
   {
     transform: "translateX(100%)",
-    offset: 0.75,
+  },
+];
+
+export const waitRightAnimation = [
+  {
+    transform: "translateX(100%)",
   },
   {
     transform: "translateX(100%)",
@@ -17,7 +22,12 @@ export const slideLeftAnimation = [
   },
   {
     transform: "translateX(-100%)",
-    offset: 0.75,
+  },
+];
+
+export const waitLeftAnimation = [
+  {
+    transform: "translateX(-100%)",
   },
   {
     transform: "translateX(-100%)",

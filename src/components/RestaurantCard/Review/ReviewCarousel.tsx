@@ -1,12 +1,13 @@
 import { getReviewForRestaurant } from "@/core/avis/getReviewByRestaurant";
 import { useEffect, useRef, useState } from "react";
 import styles from "./ReviewCarousel.module.css";
-import { slideLeftAnimation, slideRightAnimation } from "./keyframe";
+import { slideLeftAnimation, slideRightAnimation, waitLeftAnimation, waitRightAnimation } from "./keyframe";
 import { ReviewInfos } from "@/core/avis/type/interface";
-import { ReviewComponent } from "./ReviewComponent";
+import {  ReviewComponentMiddleAndSides } from "./ReviewComponent";
 
-const WAIT_TIME = 1500;
+const WAIT_TIME = 15000;
 const TRANSLATION_DURATION = 500;
+const EPSILON_DURATION = 100;
 
 type RestaurantNameProps = {
   restaurantName: string;
@@ -32,6 +33,7 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
   const timerRef = useRef<NodeJS.Timeout>();
 
   const createTimerChangingCurrentCommentAfterIt = () => {
+    clearTimeout(timerRef.current);
     timerRef.current = setTimeout(
       () => changeCurrentCommentAndAnimateCarousel(Direction.NEXT),
       WAIT_TIME
@@ -61,13 +63,62 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
     return () => clearInterval(timerRef.current);
   }, [restaurantName]);
 
+  const changeIndexOfSideComments = (changeStep : number) =>{
+    setIndexOfDisplayedComments(({ left, middle: middle, right }) => ({
+      left: mod(left + changeStep, numberOfReview),
+      middle,
+      right: mod(right + changeStep, numberOfReview),
+    }))};
+    
+  const changeIndexOfMiddleComment = (changeStep : number) =>{
+      setIndexOfDisplayedComments(({ left, middle, right }) => ({
+        left: left,
+        middle: mod(middle + changeStep, numberOfReview),
+        right: right,
+      }))};
+
+  function updateDisplayedCommentsAndAnimate(
+    slideAnimation: any,
+    waitAnimation:any,
+    allSliderElem: NodeListOf<Element>,
+    changeStep: number
+    ){
+      allSliderElem.forEach((elem) => {
+        elem.animate(slideAnimation, {
+          duration: TRANSLATION_DURATION,
+        }).onfinish = () =>{
+          changeIndexOfMiddleComment(changeStep);
+          elem.animate(waitAnimation, {
+            duration: EPSILON_DURATION,
+          }).onfinish = () => {
+            changeIndexOfSideComments(changeStep);
+          };
+        }
+        });
+  }
+  function updateDisplayedCommentsAndAnimateDependingOnDirection(
+    direction: Direction,
+    allSliderElem: NodeListOf<Element>
+    ) {
+    switch (direction){ 
+      case Direction.NEXT:
+        updateDisplayedCommentsAndAnimate(slideLeftAnimation,waitLeftAnimation, allSliderElem, 1)
+        break;
+      case Direction.PREVIOUS:
+        updateDisplayedCommentsAndAnimate(slideRightAnimation,waitRightAnimation, allSliderElem, -1)
+        break;
+      case Direction.STAY:
+        break;
+    }
+  };
+
   const changeCurrentCommentAndAnimateCarousel = (direction: Direction) => {
     const allSliderElem = document.querySelectorAll("[id=slider]");
-    updateChangeStepDirectionAndAnimate(direction, allSliderElem);
-    timerRef.current = setTimeout(
-      () => changeCurrentCommentAndAnimateCarousel(Direction.NEXT),
-      WAIT_TIME
+    updateDisplayedCommentsAndAnimateDependingOnDirection(
+      direction,
+      allSliderElem
     );
+    createTimerChangingCurrentCommentAfterIt();
   };
 
   const displayCurrentCommentAndSide = (reviewArray: ReviewInfos[]) => {
@@ -112,26 +163,7 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
     </div>
   );
 };
-function updateChangeStepDirectionAndAnimate(
-  direction: Direction,
-  allSliderElem: NodeListOf<Element>
-) {
-  switch (direction) {
-    case Direction.NEXT:
-      allSliderElem.forEach((elem) =>
-        elem.animate(slideLeftAnimation, {
-          duration: TRANSLATION_DURATION,
-        })
-      );
-      return +1;
-    case Direction.PREVIOUS:
-      allSliderElem.forEach((elem) =>
-        elem.animate(slideRightAnimation, {
-          duration: TRANSLATION_DURATION,
-        })
-      );
-      return -1;
-    case Direction.STAY:
-      return 0;
-  }
-}
+
+const mod = (numberToDivide: number, divisor: number): number => {
+  return ((numberToDivide % divisor) + divisor) % divisor;
+};
