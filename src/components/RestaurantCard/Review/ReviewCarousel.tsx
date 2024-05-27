@@ -18,7 +18,17 @@ enum Direction {
   STAY = "STAY",
 }
 export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
-  const currentReviewArray: ReviewInfos[] = [];
+  const [currentReviewArray, setCurrentReviewArray] = useState<ReviewInfos[]>(
+    []
+  );
+  const [numberOfReview, setNumberOfReview] = useState<number>(1);
+
+  const [indexOfDisplayedComments, setIndexOfDisplayedComments] = useState({
+    left: 0,
+    middle: 1,
+    right: 2,
+  });
+
   const timerRef = useRef<NodeJS.Timeout>();
 
   const createTimerChangingCurrentCommentAfterIt = () => {
@@ -29,8 +39,27 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
   };
 
   useEffect(() => {
+    var reviewArray: ReviewInfos[] = [];
     createTimerChangingCurrentCommentAfterIt();
-  }, []);
+    if (restaurantName) {
+      const asynGetReviewForRestaurant = async () => {
+        reviewArray = await getReviewForRestaurant(restaurantName);
+      };
+      asynGetReviewForRestaurant().then(() => {
+        if (reviewArray) {
+          setCurrentReviewArray(reviewArray);
+          setNumberOfReview(reviewArray.length);
+        } else {
+          setCurrentReviewArray(reviewArray);
+          setNumberOfReview(1);
+        }
+      });
+    } else {
+      setCurrentReviewArray(reviewArray);
+      setNumberOfReview(1);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [restaurantName]);
 
   const changeCurrentCommentAndAnimateCarousel = (direction: Direction) => {
     const allSliderElem = document.querySelectorAll("[id=slider]");
@@ -42,11 +71,23 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
   };
 
   const displayCurrentCommentAndSide = (reviewArray: ReviewInfos[]) => {
+    if (reviewArray?.length > 0) {
+      return (
+        <div className={styles.reviewContainer}>
+          <ReviewComponentMiddleAndSides
+            reviewLeft={reviewArray[indexOfDisplayedComments.left]}
+            reviewMiddle={reviewArray[indexOfDisplayedComments.middle]}
+            reviewRight={reviewArray[indexOfDisplayedComments.right]}
+          />
+        </div>
+      );
+    } else {
     return (
       <div className={styles.reviewContainer}>
           <ReviewComponentMiddleAndSides/>
       </div>
     );
+    }
   };
 
   return (
