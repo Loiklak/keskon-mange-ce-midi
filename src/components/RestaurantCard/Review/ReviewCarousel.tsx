@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./ReviewCarousel.module.css";
 import { slideLeftAnimation, slideRightAnimation, waitLeftAnimation, waitRightAnimation } from "./keyframe";
 import { ReviewInfos } from "@/core/avis/type/interface";
-import {  ReviewComponentMiddleAndSides } from "./ReviewComponent";
+import {  ReviewComponent } from "./ReviewComponent";
 
 const WAIT_TIME = 15000;
 const TRANSLATION_DURATION = 500;
@@ -125,7 +125,7 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
     if (reviewArray?.length > 0) {
       return (
         <div className={styles.reviewContainer}>
-          <ReviewComponentMiddleAndSides
+          <ReviewComponent
             reviewLeft={reviewArray[indexOfDisplayedComments.left]}
             reviewMiddle={reviewArray[indexOfDisplayedComments.middle]}
             reviewRight={reviewArray[indexOfDisplayedComments.right]}
@@ -135,7 +135,7 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
     } else {
     return (
       <div className={styles.reviewContainer}>
-          <ReviewComponentMiddleAndSides/>
+          <ReviewComponent/>
       </div>
     );
     }

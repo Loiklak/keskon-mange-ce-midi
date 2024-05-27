@@ -14,23 +14,23 @@ interface ReviewComponentProps {
   reviewRight?: ReviewInfos;
 }
 
-export const ReviewComponentMiddleAndSides: React.FC<ReviewComponentProps> = ({ reviewLeft, reviewMiddle, reviewRight}) => {
+export const ReviewComponent: React.FC<ReviewComponentProps> = ({ reviewLeft, reviewMiddle, reviewRight}) => {
   return(
     <div className={styles.reviewContainerVisible} id="slider">
-          <ReviewComponent
+          <OneReviewComponent
             review={reviewLeft}
           />
-          <ReviewComponent
+          <OneReviewComponent
             review={reviewMiddle}
           />
-          <ReviewComponent
+          <OneReviewComponent
             review={reviewRight}
           />
     </div>
   )
 };
 
-export const ReviewComponent: React.FC<ReviewComponentProps> = ({ review }) => {
+export const OneReviewComponent: React.FC<ReviewComponentProps> = ({ review }) => {
   return review ? displayOneReviewComment(review) : displayNoReview();
 };
 
