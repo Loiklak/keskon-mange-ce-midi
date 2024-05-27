@@ -44,9 +44,7 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
   const displayCurrentCommentAndSide = (reviewArray: ReviewInfos[]) => {
     return (
       <div className={styles.reviewContainer}>
-        <ReviewComponent />
-        <ReviewComponent />
-        <ReviewComponent />
+          <ReviewComponentMiddleAndSides/>
       </div>
     );
   };

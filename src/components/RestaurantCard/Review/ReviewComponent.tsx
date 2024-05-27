@@ -8,13 +8,35 @@ interface ReviewComponentProps {
   review?: ReviewInfos;
 }
 
+interface ReviewComponentProps {
+  reviewLeft?: ReviewInfos;
+  reviewMiddle?: ReviewInfos;
+  reviewRight?: ReviewInfos;
+}
+
+export const ReviewComponentMiddleAndSides: React.FC<ReviewComponentProps> = ({ reviewLeft, reviewMiddle, reviewRight}) => {
+  return(
+    <div className={styles.reviewContainerVisible} id="slider">
+          <ReviewComponent
+            review={reviewLeft}
+          />
+          <ReviewComponent
+            review={reviewMiddle}
+          />
+          <ReviewComponent
+            review={reviewRight}
+          />
+    </div>
+  )
+};
+
 export const ReviewComponent: React.FC<ReviewComponentProps> = ({ review }) => {
   return review ? displayOneReviewComment(review) : displayNoReview();
 };
 
 export const displayOneReviewComment = (review: ReviewInfos) => {
   return (
-    <div className={styles.review} id="slider">
+    <div className={styles.review}>
       <p className={styles.evaluation}>
         {convertEvaluationToStringToDisplay(review.evaluation)}
       </p>
@@ -44,7 +66,7 @@ export const displayOneReviewComment = (review: ReviewInfos) => {
 };
 export const displayNoReview = () => {
   return (
-    <div className={styles.review} id="slider">
+    <div className={styles.review}>
       <a
         href="https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=915087104"
         target="_blank"

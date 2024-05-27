@@ -11,6 +11,13 @@
   font-size: 25px;
 }
 
+.reviewContainerVisible {
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+  width: 500px;
+}
+
 .containerCommentAndAuthor {
   justify-content: space-between;
   display: flex;
