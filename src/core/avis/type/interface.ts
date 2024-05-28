@@ -1,3 +1,10 @@
+export const REVIEW_INFOS_KEY_NAMES = {
+  name : "name",
+  comment : "comment",
+  evaluation : "evaluation",
+  author : "author"
+}
+
 export interface ReviewInfos {
   name: string;
   comment: string;
@@ -15,10 +22,7 @@ export enum Evaluation {
 
 export function isReviewInfosKey(key: string): key is keyof ReviewInfos {
   return (
-    key === "name" ||
-    key === "comment" ||
-    key === "evaluation" ||
-    key == "author"
+    key in REVIEW_INFOS_KEY_NAMES
   );
 }
 

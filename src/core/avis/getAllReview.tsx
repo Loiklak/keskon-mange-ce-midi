@@ -5,6 +5,7 @@ import {
   convertSheetCellToEvaluation,
   isReviewInfosKey,
   Evaluation,
+  REVIEW_INFOS_KEY_NAMES,
 } from "./type/interface";
 import {
   ReviewEvaluationKeys,
@@ -12,17 +13,18 @@ import {
 } from "./type/typeGuardEvaluation";
 import { reviewStringKeys, ReviewStringKeys } from "./type/typeGuardString";
 import { generateAPIURL } from "../sheetMethods";
-import { error } from "console";
 
 const REVIEW_VALUE_RANGE = "Avis!A:D";
 const DOCUMENT_ID = process.env.RESTAURANTS_SHEET_ID;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
+
+
 const sheetsColumnsToTechnicalName = {
-  Restaurant: "name",
-  Avis: "comment",
-  Note: "evaluation",
-  Theodoer: "author",
+  Restaurant: REVIEW_INFOS_KEY_NAMES.name,
+  Avis: REVIEW_INFOS_KEY_NAMES.comment,
+  Note: REVIEW_INFOS_KEY_NAMES.evaluation,
+  Theodoer: REVIEW_INFOS_KEY_NAMES.author,
 } as const;
 
 type GoogleSheetsExpectedColumnNames =
