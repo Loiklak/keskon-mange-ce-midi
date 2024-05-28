@@ -32,32 +32,29 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
 
   const timerRef = useRef<NodeJS.Timeout>();
 
-  const createTimerChangingCurrentCommentAfterIt = () => {
+  const initCarouselAutoAnimation = () => {
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(
       () => changeCurrentCommentAndAnimateCarousel(Direction.NEXT),
       WAIT_TIME
     );
   };
-
-  useEffect(() => {
-    var reviewArray: ReviewInfos[] = [];
-    createTimerChangingCurrentCommentAfterIt();
-    if (restaurantName) {
-      const asynGetReviewForRestaurant = async () => {
-        reviewArray = await getReviewForRestaurant(restaurantName);
-      };
-      asynGetReviewForRestaurant().then(() => {
+  const asynGetReviewForRestaurant = async () => {
+        const reviewArray = await getReviewForRestaurant(restaurantName);
         if (reviewArray) {
           setCurrentReviewArray(reviewArray);
           setNumberOfReview(reviewArray.length);
         } else {
           setCurrentReviewArray(reviewArray);
           setNumberOfReview(1);
-        }
-      });
+        }}
+
+  useEffect(() => {
+    initCarouselAutoAnimation();
+    if (restaurantName) {
+      asynGetReviewForRestaurant();
     } else {
-      setCurrentReviewArray(reviewArray);
+      setCurrentReviewArray([]);
       setNumberOfReview(1);
     }
     return () => clearInterval(timerRef.current);
@@ -118,7 +115,7 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
       direction,
       allSliderElem
     );
-    createTimerChangingCurrentCommentAfterIt();
+    initCarouselAutoAnimation();
   };
 
   const displayCurrentCommentAndSide = (reviewArray: ReviewInfos[]) => {

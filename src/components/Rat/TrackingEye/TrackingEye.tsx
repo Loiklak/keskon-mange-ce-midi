@@ -15,9 +15,9 @@ const TrackingEye = () => {
   const [yTranslation, setYTranslation] = useState<number>(0);
 
   const getPosition = () => {
-    var element: null | HTMLElement | Element = boxRef.current;
-    var x = 0;
-    var y = 0;
+    let element: null | HTMLElement | Element = boxRef.current;
+    let x = 0;
+    let y = 0;
     while (element) {
       if (element instanceof HTMLElement) {
         x += element.offsetLeft;
