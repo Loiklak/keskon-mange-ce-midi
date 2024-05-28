@@ -60,11 +60,11 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
     return () => clearInterval(timerRef.current);
   }, [restaurantName]);
 
-  const changeIndexOfSideComments = (changeStep : number) =>{
+  const changeIndexOfSideComments = () =>{
     setIndexOfDisplayedComments(({ left, middle: middle, right }) => ({
-      left: mod(left + changeStep, numberOfReview),
+      left: mod(middle -1, numberOfReview),
       middle,
-      right: mod(right + changeStep, numberOfReview),
+      right: mod(middle + 1, numberOfReview),
     }))};
     
   const changeIndexOfMiddleComment = (changeStep : number) =>{
@@ -83,12 +83,13 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
       allSliderElem.forEach((elem) => {
         elem.animate(slideAnimation, {
           duration: TRANSLATION_DURATION,
+          easing:"ease-in",
         }).onfinish = () =>{
           changeIndexOfMiddleComment(changeStep);
           elem.animate(waitAnimation, {
             duration: EPSILON_DURATION,
           }).onfinish = () => {
-            changeIndexOfSideComments(changeStep);
+            changeIndexOfSideComments();
           };
         }
         });
