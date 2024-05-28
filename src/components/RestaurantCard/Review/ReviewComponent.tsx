@@ -4,6 +4,7 @@ import {
 } from "@/core/avis/type/interface";
 import styles from "./ReviewComponent.module.css";
 
+const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=915087104";
 interface ReviewComponentProps {
   review?: ReviewInfos;
 }
@@ -47,7 +48,7 @@ export const displayOneReviewComment = (review: ReviewInfos) => {
         <div>
           <p className={styles.addComment}>
             <a
-              href="https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=915087104"
+              href={GOOGLE_SHEET_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -68,7 +69,7 @@ export const displayNoReview = () => {
   return (
     <div className={styles.review}>
       <a
-        href="https://docs.google.com/spreadsheets/d/1B1kD-kZQiJUEYcSmAXom_lY7_JhOLp9UTq0Uf44wNY0/edit#gid=915087104"
+        href={GOOGLE_SHEET_URL}
         target="_blank"
         rel="noopener noreferrer"
       >
