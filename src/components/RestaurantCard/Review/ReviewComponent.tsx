@@ -32,10 +32,10 @@ export const ReviewComponent: React.FC<ReviewComponentProps> = ({ reviewLeft, re
 };
 
 export const OneReviewComponent: React.FC<ReviewComponentProps> = ({ review }) => {
-  return review ? displayOneReviewComment(review) : displayNoReview();
+  return review ? <OneReviewComment review={review}/> : <NoReview />;
 };
 
-export const displayOneReviewComment = (review: ReviewInfos) => {
+export const OneReviewComment = ({ review }: { review: ReviewInfos })=> {
   return (
     <div className={styles.review}>
       <p className={styles.evaluation}>
@@ -65,7 +65,7 @@ export const displayOneReviewComment = (review: ReviewInfos) => {
     </div>
   );
 };
-export const displayNoReview = () => {
+export const NoReview = () => {
   return (
     <div className={styles.review}>
       <a
