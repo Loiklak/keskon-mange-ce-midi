@@ -5,5 +5,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.trimTrailingWhitespaceInRegexAndStrings": true,
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": true
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.organiseImports": "always"
+  }
 }
