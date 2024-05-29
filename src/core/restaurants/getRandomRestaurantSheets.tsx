@@ -7,9 +7,9 @@ import { RestaurantInfos } from "./interface";
 export const getRandomRestaurantSheets = async (
   restaurantType: RestaurantType,
   diet: Diet,
-  ratMode: boolean | undefined
+  ratMode: boolean | undefined,
+  restaurants : RestaurantInfos[],
 ): Promise<RestaurantInfos> => {
-  const restaurants = await getAllRestaurantsSheets();
 
   const userChoiceFilter: Record<CorrectUserChoiceFilterKey, boolean> = {
     eatInMandatory: restaurantType === RestaurantType.EAT_IN,
