@@ -2,7 +2,6 @@ import { FC, useEffect } from "react";
 import { RestaurantInfos } from "@/core/restaurants/interface";
 import { Badge } from "../ui/badge";
 import styles from "./RestaurantCard.module.css";
-import { X } from "lucide-react";
 import { ReviewCarousel } from "./Review/ReviewCarousel";
 import { MapInfosComponent } from "../MapInfosComponent/MapInfosComponent";
 
@@ -44,9 +43,9 @@ const RestaurantCard: FC<Props> = ({
           {restaurant?.meatLover ? <Badge>Viandard</Badge> : ""}
           {restaurant?.lessThanTenEuros ? <Badge>Ratus</Badge> : ""}
           <div className={styles["badge-container"]}>
-            {restaurant?.name &&
+            {restaurant?.name && (
               <ReviewCarousel restaurantName={restaurant?.name} />
-            }
+            )}
           </div>
         </div>
         <div className={styles["map-container"]}>

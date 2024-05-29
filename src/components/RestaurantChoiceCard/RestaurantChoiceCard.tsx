@@ -12,6 +12,8 @@ import { getRandomRestaurantSheets } from "@/core/restaurants/getRandomRestauran
 import { ToggleOptionPicker } from "./OptionPicker/ToggleOptionPicker";
 import Rat from "@/components/Rat/Rat";
 import { on } from "events";
+import { useQuery } from "react-query";
+import { getAllRestaurantsSheets } from "@/core/restaurants/getAllRestaurantsSheets";
 
 interface Props {
   onPickRestaurant: (restaurant: RestaurantInfos | undefined) => void;
@@ -58,6 +60,21 @@ const RestaurantChoiceCard: FC<Props> = ({
   onRatModeChange,
   isRatModeActivated,
 }) => {
+  const {
+    data: dataRestaurant,
+    isLoading: isLoadingRestaurant,
+    isError: isErrorRestaurant,
+  } = useQuery("restaurantData", getAllRestaurantsSheets, {
+    refetchIntervalInBackground: false, // 15 mins
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+    refetchInterval: 15 * (60 * 1000), // 15 mins
+    staleTime: 10 * (60 * 1000), // 10 mins
+    cacheTime: 15 * (60 * 1000), // 15 mins
+  });
+
   const [restaurantType, setRestaurantType] = useState<RestaurantType>(
     RestaurantType.WHATEVER
   );
@@ -69,16 +86,23 @@ const RestaurantChoiceCard: FC<Props> = ({
 
   const pickRandomRestaurant = () => {
     onPickRestaurant(undefined);
-    getRandomRestaurantSheets(restaurantType, diet, isRatModeActivated).then(
-      (restaurant: RestaurantInfos | undefined) => {
+    if (dataRestaurant) {
+      getRandomRestaurantSheets(
+        restaurantType,
+        diet,
+        isRatModeActivated,
+        dataRestaurant
+      ).then((restaurant: RestaurantInfos | undefined) => {
         onPickRestaurant(restaurant);
-      }
-    );
+      });
+    }
   };
 
   useEffect(() => {
-    pickRandomRestaurant();
-  }, []);
+    if (!isLoadingRestaurant) {
+      pickRandomRestaurant();
+    }
+  }, [isLoadingRestaurant]);
 
   return (
     <div className="bg-white p-5 shadow-2xl rounded-xl flex flex-col gap-3 text-center max-w-screen-md">

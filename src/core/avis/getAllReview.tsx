@@ -18,8 +18,6 @@ const REVIEW_VALUE_RANGE = "Avis!A:D";
 const DOCUMENT_ID = process.env.NEXT_PUBLIC_RESTAURANTS_SHEET_ID;
 const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 
-
-
 const sheetsColumnsToTechnicalName = {
   Restaurant: REVIEW_INFOS_KEY_NAMES.name,
   Avis: REVIEW_INFOS_KEY_NAMES.comment,

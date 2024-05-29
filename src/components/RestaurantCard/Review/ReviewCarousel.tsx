@@ -1,9 +1,15 @@
-import { getReviewForRestaurant } from "@/core/avis/getReviewByRestaurant";
-import { useEffect, useRef, useState } from "react";
-import styles from "./ReviewCarousel.module.css";
-import { slideLeftAnimation, slideRightAnimation, waitLeftAnimation, waitRightAnimation } from "./keyframe";
+import { getRestaurantNameToReview } from "@/core/avis/getReviewByRestaurant";
 import { ReviewInfos } from "@/core/avis/type/interface";
-import {  ReviewComponent } from "./ReviewComponent";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
+import styles from "./ReviewCarousel.module.css";
+import { ReviewComponent } from "./ReviewComponent";
+import {
+  slideLeftAnimation,
+  slideRightAnimation,
+  waitLeftAnimation,
+  waitRightAnimation,
+} from "./keyframe";
 
 const WAIT_TIME = 15000;
 const TRANSLATION_DURATION = 500;
@@ -19,6 +25,21 @@ enum Direction {
   STAY = "STAY",
 }
 export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
+  const {
+    data: dataReview,
+    isLoading: isLoadingReview,
+    isError: isErrorReview,
+  } = useQuery("reviewData", getRestaurantNameToReview, {
+    refetchIntervalInBackground: false, // 15 mins
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+    refetchInterval: 15 * (60 * 1000), // 15 mins
+    staleTime: 10 * (60 * 1000), // 10 mins
+    cacheTime: 15 * (60 * 1000), // 15 mins
+  });
+
   const [currentReviewArray, setCurrentReviewArray] = useState<ReviewInfos[]>(
     []
   );
@@ -39,76 +60,89 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
       WAIT_TIME
     );
   };
-  const asynGetReviewForRestaurant = async () => {
-        const reviewArray = await getReviewForRestaurant(restaurantName);
-        if (reviewArray) {
-          setCurrentReviewArray(reviewArray);
-          setNumberOfReview(reviewArray.length);
-        } else {
-          setCurrentReviewArray(reviewArray);
-          setNumberOfReview(1);
-        }}
+  const asynGetReviewForRestaurantUsingUseQuery = () => {
+    const reviewArray = dataReview?.[restaurantName];
+    if (reviewArray) {
+      setCurrentReviewArray(reviewArray);
+      setNumberOfReview(reviewArray.length);
+    } else {
+      setCurrentReviewArray([]);
+      setNumberOfReview(1);
+    }
+  };
 
   useEffect(() => {
     initCarouselAutoAnimation();
-    if (restaurantName) {
-      asynGetReviewForRestaurant();
+    if (restaurantName && !isLoadingReview) {
+      asynGetReviewForRestaurantUsingUseQuery();
     } else {
       setCurrentReviewArray([]);
       setNumberOfReview(1);
     }
     return () => clearInterval(timerRef.current);
-  }, [restaurantName]);
+  }, [restaurantName, isLoadingReview]);
 
-  const changeIndexOfSideComments = () =>{
+  const changeIndexOfSideComments = () => {
     setIndexOfDisplayedComments(({ left, middle: middle, right }) => ({
-      left: mod(middle -1, numberOfReview),
+      left: mod(middle - 1, numberOfReview),
       middle,
       right: mod(middle + 1, numberOfReview),
-    }))};
-    
-  const changeIndexOfMiddleComment = (changeStep : number) =>{
-      setIndexOfDisplayedComments(({ left, middle, right }) => ({
-        left: left,
-        middle: mod(middle + changeStep, numberOfReview),
-        right: right,
-      }))};
+    }));
+  };
+
+  const changeIndexOfMiddleComment = (changeStep: number) => {
+    setIndexOfDisplayedComments(({ left, middle, right }) => ({
+      left: left,
+      middle: mod(middle + changeStep, numberOfReview),
+      right: right,
+    }));
+  };
 
   function updateDisplayedCommentsAndAnimate(
     slideAnimation: any,
-    waitAnimation:any,
+    waitAnimation: any,
     allSliderElem: NodeListOf<Element>,
     changeStep: number
-    ){
-      allSliderElem.forEach((elem) => {
-        elem.animate(slideAnimation, {
-          duration: TRANSLATION_DURATION,
-          easing:"ease-in",
-        }).onfinish = () =>{
-          changeIndexOfMiddleComment(changeStep);
-          elem.animate(waitAnimation, {
-            duration: EPSILON_DURATION,
-          }).onfinish = () => {
-            changeIndexOfSideComments();
-          };
-        }
-        });
+  ) {
+    allSliderElem.forEach((elem) => {
+      elem.animate(slideAnimation, {
+        duration: TRANSLATION_DURATION,
+        easing: "ease-in",
+      }).onfinish = () => {
+        changeIndexOfMiddleComment(changeStep);
+        elem.animate(waitAnimation, {
+          duration: EPSILON_DURATION,
+        }).onfinish = () => {
+          changeIndexOfSideComments();
+        };
+      };
+    });
   }
   function updateDisplayedCommentsAndAnimateDependingOnDirection(
     direction: Direction,
     allSliderElem: NodeListOf<Element>
-    ) {
-    switch (direction){ 
+  ) {
+    switch (direction) {
       case Direction.NEXT:
-        updateDisplayedCommentsAndAnimate(slideLeftAnimation,waitLeftAnimation, allSliderElem, 1)
+        updateDisplayedCommentsAndAnimate(
+          slideLeftAnimation,
+          waitLeftAnimation,
+          allSliderElem,
+          1
+        );
         break;
       case Direction.PREVIOUS:
-        updateDisplayedCommentsAndAnimate(slideRightAnimation,waitRightAnimation, allSliderElem, -1)
+        updateDisplayedCommentsAndAnimate(
+          slideRightAnimation,
+          waitRightAnimation,
+          allSliderElem,
+          -1
+        );
         break;
       case Direction.STAY:
         break;
     }
-  };
+  }
 
   const changeCurrentCommentAndAnimateCarousel = (direction: Direction) => {
     const allSliderElem = document.querySelectorAll("[id=slider]");
@@ -131,11 +165,11 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
         </div>
       );
     } else {
-    return (
-      <div className={styles.reviewContainer}>
-          <ReviewComponent/>
-      </div>
-    );
+      return (
+        <div className={styles.reviewContainer}>
+          <ReviewComponent />
+        </div>
+      );
     }
   };
 
