@@ -12,7 +12,7 @@ const groupBy = <TInput, TGroupByIndex extends keyof any>(
     {} as Record<TGroupByIndex, TInput[]>
   );
 
-const getRestaurantNameToReview = async () => {
+export const getRestaurantNameToReview = async () => {
   const allReview = await getAllReviewsFromGoogleSheet();
   const restaurantNameToReview = await groupBy(allReview, (i) => i.name);
   return restaurantNameToReview;

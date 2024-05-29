@@ -1,9 +1,10 @@
-import { getReviewForRestaurant } from "@/core/avis/getReviewByRestaurant";
+import { getRestaurantNameToReview, getReviewForRestaurant } from "@/core/avis/getReviewByRestaurant";
 import { useEffect, useRef, useState } from "react";
 import styles from "./ReviewCarousel.module.css";
 import { slideLeftAnimation, slideRightAnimation, waitLeftAnimation, waitRightAnimation } from "./keyframe";
 import { ReviewInfos } from "@/core/avis/type/interface";
 import {  ReviewComponent } from "./ReviewComponent";
+import {useQuery} from "react-query"
 
 const WAIT_TIME = 15000;
 const TRANSLATION_DURATION = 500;
@@ -19,6 +20,17 @@ enum Direction {
   STAY = "STAY",
 }
 export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
+  const { data : dataReview, isLoading : isLoadingReview, isError: isErrorReview} = useQuery('reviewData', getRestaurantNameToReview, {
+    refetchIntervalInBackground:false, // 15 mins
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    retry: false,
+    refetchInterval:15*(60*1000), // 15 mins
+    staleTime: 10*(60*1000), // 10 mins
+    cacheTime: 15*(60*1000), // 15 mins
+  });
+
   const [currentReviewArray, setCurrentReviewArray] = useState<ReviewInfos[]>(
     []
   );
@@ -39,26 +51,26 @@ export const ReviewCarousel = ({ restaurantName }: RestaurantNameProps) => {
       WAIT_TIME
     );
   };
-  const asynGetReviewForRestaurant = async () => {
-        const reviewArray = await getReviewForRestaurant(restaurantName);
+  const asynGetReviewForRestaurantUsingUseQuery = () =>{
+    const reviewArray = dataReview?.[restaurantName];
         if (reviewArray) {
           setCurrentReviewArray(reviewArray);
           setNumberOfReview(reviewArray.length);
         } else {
-          setCurrentReviewArray(reviewArray);
+          setCurrentReviewArray([]);
           setNumberOfReview(1);
         }}
 
   useEffect(() => {
     initCarouselAutoAnimation();
-    if (restaurantName) {
-      asynGetReviewForRestaurant();
+    if (restaurantName && !isLoadingReview) {
+      asynGetReviewForRestaurantUsingUseQuery()
     } else {
       setCurrentReviewArray([]);
       setNumberOfReview(1);
     }
     return () => clearInterval(timerRef.current);
-  }, [restaurantName]);
+  }, [restaurantName, isLoadingReview]);
 
   const changeIndexOfSideComments = () =>{
     setIndexOfDisplayedComments(({ left, middle: middle, right }) => ({
