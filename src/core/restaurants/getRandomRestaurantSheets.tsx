@@ -8,9 +8,8 @@ export const getRandomRestaurantSheets = async (
   restaurantType: RestaurantType,
   diet: Diet,
   ratMode: boolean | undefined,
-  restaurants : RestaurantInfos[],
+  restaurants: RestaurantInfos[]
 ): Promise<RestaurantInfos> => {
-
   const userChoiceFilter: Record<CorrectUserChoiceFilterKey, boolean> = {
     eatInMandatory: restaurantType === RestaurantType.EAT_IN,
     takeAwayMandatory: restaurantType === RestaurantType.TAKE_AWAY,

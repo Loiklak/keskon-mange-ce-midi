@@ -60,15 +60,19 @@ const RestaurantChoiceCard: FC<Props> = ({
   onRatModeChange,
   isRatModeActivated,
 }) => {
-  const { data: dataRestaurant, isLoading: isLoadingRestaurant, isError: isErrorRestaurant} = useQuery('restaurantData', getAllRestaurantsSheets, {
-    refetchIntervalInBackground:false, // 15 mins
+  const {
+    data: dataRestaurant,
+    isLoading: isLoadingRestaurant,
+    isError: isErrorRestaurant,
+  } = useQuery("restaurantData", getAllRestaurantsSheets, {
+    refetchIntervalInBackground: false, // 15 mins
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
     retry: false,
-    refetchInterval:15*(60*1000), // 15 mins
-    staleTime: 10*(60*1000), // 10 mins
-    cacheTime: 15*(60*1000), // 15 mins
+    refetchInterval: 15 * (60 * 1000), // 15 mins
+    staleTime: 10 * (60 * 1000), // 10 mins
+    cacheTime: 15 * (60 * 1000), // 15 mins
   });
 
   const [restaurantType, setRestaurantType] = useState<RestaurantType>(
@@ -82,19 +86,21 @@ const RestaurantChoiceCard: FC<Props> = ({
 
   const pickRandomRestaurant = () => {
     onPickRestaurant(undefined);
-    if(dataRestaurant){
-      getRandomRestaurantSheets(restaurantType, diet, isRatModeActivated,dataRestaurant).then(
-        (restaurant: RestaurantInfos | undefined) => {
-          onPickRestaurant(restaurant);
-        }
-      );
+    if (dataRestaurant) {
+      getRandomRestaurantSheets(
+        restaurantType,
+        diet,
+        isRatModeActivated,
+        dataRestaurant
+      ).then((restaurant: RestaurantInfos | undefined) => {
+        onPickRestaurant(restaurant);
+      });
     }
   };
 
   useEffect(() => {
-    if(!isLoadingRestaurant){
+    if (!isLoadingRestaurant) {
       pickRandomRestaurant();
-      
     }
   }, [isLoadingRestaurant]);
 
